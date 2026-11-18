@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c8f9a">
+<script>
+/* affiche à l'écran toute erreur JavaScript de la page (diagnostic sur téléphone, sans console) */
+(function(){
+  function show(m){try{var d=document.getElementById("mb-err");if(!d){d=document.createElement("div");d.id="mb-err";d.setAttribute("role","alert");d.style.cssText="position:fixed;left:10px;right:10px;bottom:10px;z-index:99;background:#2a0b14;color:#ffd6e1;border:1px solid #ff6b9d;border-radius:12px;padding:10px 12px;font:13px/1.4 system-ui,-apple-system,sans-serif";(document.body||document.documentElement).appendChild(d);}d.textContent=m;}catch(e){}}
+  window.__mbErr=show;
+  window.addEventListener("error",function(e){
+    var page=location.href.split("#")[0];
+    if(e.filename&&e.filename.split("#")[0]!==page)return;          /* ignore les scripts tiers */
+    if(e.message&&/ResizeObserver loop/.test(e.message))return;       /* avertissement bénin */
+    show("Erreur JavaScript : "+(e.message||"inconnue")+(e.lineno?" (ligne "+e.lineno+")":""));
+  });
+})();
+</script>
+<noscript><style>.top,.app,.backdrop{display:none!important}html,body{height:auto!important;overflow:auto!important}
+/* ---------- Affichage de secours sans JavaScript (aperçu iPhone / Quick Look) ---------- */
+.nojs{max-width:760px;margin:0 auto;padding:16px 16px 40px;color:#eaf2ff;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45}
+.nj-brand{font-size:20px;font-weight:700;letter-spacing:-.01em}
+.nj-brand span{color:#4dd4ff}
+.nj-warn{margin:10px 0 14px;padding:12px 14px;border-radius:12px;background:rgba(77,212,255,0.08);border:1px solid rgba(77,212,255,0.3);font-size:14px}
+.nj-fig{margin:0 0 6px;border-radius:16px;overflow:hidden;border:1px solid rgba(140,180,255,0.14);background:#050811}
+.nj-fig svg{display:block;width:100%;height:auto}
+.nj-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 6px;font-size:12px;color:#8ea0bc}
+.nojs h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8ea0bc;margin:22px 0 10px}
+.nj-cat{margin:0 0 12px;padding:12px 14px;border-radius:14px;background:#121c2c;border:1px solid rgba(140,180,255,0.14);border-left:3px solid var(--c)}
+.nj-cat h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:15px;color:var(--c)}
+.nj-dot{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.nj-n{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8ea0bc}
+.nj-cat ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.nj-cat li{display:grid;grid-template-columns:1fr auto;gap:1px 10px;align-items:baseline}
+.nj-cat li b{font-weight:600}
+.nj-meta{grid-column:1;font-size:12.5px;color:#8ea0bc}
+.nj-acts{grid-column:2;grid-row:1/span 2;display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:150px}
+.nj-acts i,.nj-actlist i{font-style:normal;font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px;background:rgba(95,251,255,0.12);color:#bff8ff}
+.nj-actlist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.nj-actlist li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline;padding:10px 12px;border-radius:12px;background:#121c2c;border:1px solid rgba(140,180,255,0.14)}
+.nj-actlist small{grid-column:2;color:#8ea0bc;font-size:12px}
+</style></noscript>
+<title>Constellation des acteurs MedBoard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* Plan : trois colonnes (filtres + annuaire | scène 3D ou matrice | fiche). Les étages de la scène = type d'acteur, le cœur = les 10 actions. */
+:root{
+  color-scheme:dark;
+  --bg:#070b14; --surface:rgba(18,28,44,0.72); --surface-solid:#121c2c; --stage:#070b14;
+  --ink:#eaf2ff; --muted:#8ea0bc; --line:rgba(140,180,255,0.14); --line-strong:rgba(140,180,255,0.28);
+  --accent:#4dd4ff; --accent-soft:rgba(77,212,255,0.12); --on-accent:#021018;
+  --c-fond:#4dd4ff; --c-coll:#ffb562; --c-acad:#b57dff; --c-pole:#ff6b9d;
+  --glow-fond:rgba(77,212,255,0.55); --glow-coll:rgba(255,181,98,0.55); --glow-acad:rgba(181,125,255,0.55); --glow-pole:rgba(255,107,157,0.55);
+  --display:"Outfit",system-ui,"Segoe UI",sans-serif;
+  --body:"Outfit",system-ui,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f2f6f8; --surface:#ffffff; --surface-solid:#ffffff; --stage:#f8fbfc; --ink:#0f1f2a; --muted:#5d7180; --line:#dbe4e9; --line-strong:#c4d1d9;
+  --accent:#0c8f9a; --accent-soft:#dff3f4; --on-accent:#ffffff;
+  --c-fond:#0c8f9a; --c-coll:#c97a0a; --c-acad:#5560cf; --c-pole:#cf4a69;
+  --glow-fond:rgba(12,143,154,0.4); --glow-coll:rgba(201,122,10,0.4); --glow-acad:rgba(85,96,207,0.4); --glow-pole:rgba(207,74,105,0.4);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45;display:flex;flex-direction:column;background-image:radial-gradient(ellipse at 20% 0%,rgba(77,212,255,0.08),transparent 55%),radial-gradient(ellipse at 100% 100%,rgba(181,125,255,0.07),transparent 55%);background-attachment:fixed}
+:root[data-theme="light"] body{background-image:none}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+
+.top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:14px 20px;background:var(--surface);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom:1px solid var(--line)}
+.top h1{font-size:20px;font-weight:700;letter-spacing:-.015em}
+.top h1 span{background:linear-gradient(90deg,var(--c-fond),var(--c-acad));-webkit-background-clip:text;background-clip:text;color:transparent}
+.top p{margin:0;color:var(--muted);font-size:13px}
+.brand{display:flex;flex-direction:column;gap:2px;margin-right:auto}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(255,255,255,0.04);padding:3px}
+.seg button{border:0;background:transparent;padding:7px 14px;font-weight:500;color:var(--muted);border-radius:9px;transition:all .2s}
+.seg button[aria-pressed="true"]{background:linear-gradient(135deg,var(--c-fond),var(--c-acad));color:var(--on-accent);box-shadow:0 2px 12px rgba(77,212,255,0.3)}
+.btn{border:1px solid var(--line);background:var(--surface-solid);border-radius:12px;padding:8px 14px;font-weight:500;transition:all .2s}
+.btn:hover{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.btn.primary{background:linear-gradient(135deg,var(--c-fond),var(--c-acad));border-color:transparent;color:var(--on-accent);box-shadow:0 4px 18px rgba(77,212,255,0.3)}
+.count{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+
+.app{flex:1;min-height:0;display:grid;grid-template-columns:270px minmax(0,1fr) 340px}
+.rail,.panel{background:var(--surface-solid);overflow:auto;padding:16px;display:flex;flex-direction:column;gap:16px}
+.rail{border-right:1px solid var(--line)}
+.panel{border-left:1px solid var(--line)}
+.lbl{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.group{display:flex;flex-direction:column;gap:8px}
+#q{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,0.03);transition:all .2s}
+#q:focus{outline:0;border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 4px var(--accent-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:rgba(255,255,255,0.03);border-radius:999px;padding:6px 12px;font-size:13px;transition:all .15s;cursor:pointer}
+.chip:hover{border-color:var(--line-strong)}
+.chip[aria-pressed="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,transparent);color:var(--c);box-shadow:0 0 12px color-mix(in srgb,var(--c) 30%,transparent)}
+.chips [data-cat="fond"]{--c:var(--c-fond)}.chips [data-cat="coll"]{--c:var(--c-coll)}.chips [data-cat="acad"]{--c:var(--c-acad)}.chips [data-cat="pole"]{--c:var(--c-pole)}
+.chips [data-terr]{--c:var(--accent)}
+.chip .n{font-family:var(--mono);font-size:11px;opacity:.7}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--c)}
+.shape{width:10px;height:10px;flex:none;border:2px solid currentColor}
+.shape.paca{border-radius:50%}
+.shape.corse{transform:rotate(45deg) scale(.85)}
+.list{display:flex;flex-direction:column;gap:2px}
+.row{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:0;background:transparent;border-radius:8px;padding:6px 8px}
+.row:hover{background:var(--bg)}
+.row[aria-current="true"]{background:var(--accent-soft)}
+.row .nm{flex:1;min-width:0;overflow-wrap:anywhere}
+.row .meta{font-family:var(--mono);font-size:11px;color:var(--muted);flex:none}
+.empty{color:var(--muted);padding:6px 8px}
+
+.stage{position:relative;min-width:0;min-height:0;background:radial-gradient(ellipse at 50% 45%,#0e1a2e,#050811 75%);overflow:hidden}
+:root[data-theme="light"] .stage{background:radial-gradient(ellipse at 50% 45%,var(--surface),var(--stage) 70%)}
+.stage::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 40% 80%,rgba(255,255,255,0.25),transparent),radial-gradient(1px 1px at 85% 15%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 15% 70%,rgba(255,255,255,0.25),transparent),radial-gradient(1px 1px at 55% 25%,rgba(255,255,255,0.35),transparent);background-size:400px 400px;opacity:0.7;pointer-events:none;animation:twinkle 8s ease-in-out infinite}
+:root[data-theme="light"] .stage::before{display:none}
+/* trames de balayage holographiques, par-dessus la scène, sans bloquer le toucher */
+.stage::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(180deg,rgba(95,251,255,0.045) 0 1px,transparent 1px 3px),
+             linear-gradient(180deg,transparent 0%,rgba(95,251,255,0.07) 50%,transparent 100%);
+  background-size:100% 3px,100% 220px;background-repeat:repeat,no-repeat;
+  animation:holoscan 6s linear infinite}
+@keyframes holoscan{from{background-position:0 0,0 -220px}to{background-position:0 0,0 calc(100% + 220px)}}
+@media (prefers-reduced-motion:reduce){.stage::after{animation:none;background-size:100% 3px,0 0}}
+:root[data-theme="light"] .stage::after{display:none}
+.stage .legend,.stage .hud,.stage #openpanel,.stage .matrix{z-index:2}
+@keyframes twinkle{50%{opacity:0.4}}
+#cv{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#cv.grabbing{cursor:grabbing}
+#cv.pointing{cursor:pointer}
+.hud{position:absolute;left:16px;bottom:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.hud .btn{padding:6px 10px;font-size:13px}
+.legend{position:absolute;left:16px;top:14px;display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted);pointer-events:none}
+.legend div{display:flex;align-items:center;gap:8px}
+.hint{position:absolute;right:16px;bottom:16px;font-size:12px;color:var(--muted);pointer-events:none}
+#tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--surface);padding:7px 10px;border-radius:8px;font-size:12px;max-width:260px;transform:translate(14px,14px);z-index:3}
+#tip b{display:block;font-size:13px}
+[hidden]{display:none!important}
+
+.matrix{position:absolute;top:0;right:0;bottom:0;left:0;overflow:auto;padding:16px}
+table{border-collapse:separate;border-spacing:0;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+th,td{padding:0;border-bottom:1px solid var(--line)}
+thead th{position:sticky;top:-16px;background:var(--surface);z-index:2}
+thead th:first-child{text-align:left;padding:10px 12px}
+.colb{border:0;background:transparent;width:100%;padding:10px 4px;font-family:var(--mono);font-weight:600;font-size:12px;border-radius:6px}
+.colb small{display:block;font-weight:500;color:var(--muted);font-size:10px}
+.colb:hover,.colb[aria-current="true"]{background:var(--accent-soft)}
+tbody th{text-align:left;font-weight:500}
+tbody th .row{border-radius:0}
+tr.cat th{padding:9px 12px;background:var(--bg);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+td{text-align:center;width:46px}
+td i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--c);vertical-align:middle}
+tr.on th,tr.on td{background:var(--accent-soft)}
+td.oncol{background:var(--accent-soft)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+
+.panel h2{font-size:21px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.eyebrow{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--c,var(--muted))}
+.sub{color:var(--muted);margin:0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{border:1px solid var(--line);border-radius:10px;padding:10px}
+.stat b{display:block;font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+.bar{display:grid;grid-template-columns:30px 1fr 22px;align-items:center;gap:8px;width:100%;border:0;background:transparent;padding:5px 6px;border-radius:8px;text-align:left}
+.bar:hover{background:var(--bg)}
+.bar code,.act code{font-family:var(--mono);font-size:12px;font-weight:600}
+.bar .track{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
+.bar .fill{display:block;height:100%;background:var(--accent);border-radius:4px}
+.bar .v{font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.act{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:baseline;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px}
+.act:hover{border-color:var(--accent)}
+.act small{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.contact{border:1px solid var(--line);border-radius:10px;padding:9px 10px;display:flex;gap:8px;align-items:flex-start}
+.contact div{flex:1;min-width:0;overflow-wrap:anywhere}
+.contact b{display:block}
+.contact span{display:block;color:var(--muted);font-size:13px}
+.x{border:0;background:transparent;color:var(--muted);padding:2px 6px;border-radius:6px}
+.x:hover{background:var(--bg);color:var(--ink)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+form input{min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+form button{grid-column:1/-1}
+.check{display:flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.check input{width:16px;height:16px;accent-color:var(--accent)}
+.note{font-size:12px;color:var(--muted);margin:0;margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+.mails{width:100%;min-height:84px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:9px;font-family:var(--mono);font-size:12px;resize:vertical}
+.back{align-self:flex-start;border:0;background:transparent;color:var(--accent);padding:0;font-weight:500}
+
+/* ---------- Mobile (≤900 px) : scène plein écran + tiroir filtres + feuille fiche ---------- */
+@media (max-width:900px){
+  html,body{height:100%;overflow:hidden}
+  body{overscroll-behavior:none}
+  .top{padding:8px 10px;gap:6px;flex-wrap:nowrap;position:sticky;top:0;z-index:5;align-items:center;min-height:52px}
+  .top h1{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .top p{display:none}
+  .brand{min-width:0;flex:1;margin-right:0}
+  .seg{flex:none}
+  .seg button{padding:6px 10px;font-size:12px}
+  .btn{padding:6px 10px;font-size:12px}
+  #mailbtn{white-space:nowrap}
+
+  .app{display:block;position:relative;height:calc(100% - 52px)}
+  .stage{position:absolute;top:0;right:0;bottom:0;left:0;height:auto}
+  .hint{display:none}
+  .hud{bottom:calc(10px + env(safe-area-inset-bottom));left:10px;gap:4px;flex-wrap:nowrap}
+  .hud .btn{padding:0;font-size:13px;width:40px;height:40px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center}
+  #spin{width:auto;padding:0 10px;font-size:12px}
+  .legend{top:10px;left:10px;font-size:11px;background:rgba(10,16,28,0.7);padding:6px 10px;border-radius:10px;border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  #tip{display:none!important}
+
+  /* bouton Détails flottant pour rouvrir la fiche */
+  #openpanel{position:absolute;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:3;padding:10px 14px;font-weight:600;border-radius:999px;background:var(--accent);color:var(--on-accent);border:0;box-shadow:0 4px 14px rgba(0,0,0,0.18);display:flex;align-items:center;gap:6px;font-size:13px}
+
+  /* tiroir latéral : filtres + annuaire */
+  .rail{position:fixed;left:0;top:0;bottom:0;width:min(86vw,320px);max-width:none;transform:translateX(-100%);transition:transform .3s cubic-bezier(.3,1.2,.4,1);z-index:10;overflow-y:auto;box-shadow:12px 0 32px rgba(0,0,0,0.25);padding:16px 18px calc(16px + env(safe-area-inset-bottom));border-right:1px solid var(--line)}
+  .rail.open{transform:translateX(0)}
+
+  /* feuille remontante : fiche détaillée */
+  .panel{position:fixed;left:0;right:0;bottom:0;max-height:85vh;transform:translateY(100%);transition:transform .35s cubic-bezier(.3,1.25,.4,1);z-index:10;border-left:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;padding:4px 18px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 32px rgba(0,0,0,0.22);overflow-y:auto;overscroll-behavior:contain}
+  .panel.open{transform:translateY(0)}
+  .panel::before{content:"";display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 10px;flex:none}
+
+  /* backdrop pour fermer */
+  .backdrop{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.3);z-index:9;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+  .backdrop.on{opacity:1;pointer-events:auto}
+
+  /* matrice : rend la table scrollable horizontalement */
+  .matrix{padding:10px}
+  table{font-size:12px;min-width:620px}
+  thead th{top:-10px}
+  td{width:38px}
+
+  /* fiche : contenu lisible au doigt */
+  .panel h2{font-size:18px}
+  .act,.contact,.row,.check,.bar{min-height:40px}
+  .act{padding:10px 12px}
+  .row{padding:9px 10px}
+  form input{padding:10px 12px;font-size:16px}
+  .mails{font-size:13px}
+  #q{padding:12px 14px;font-size:16px}
+  .chip{padding:7px 12px;font-size:13px}
+}
+@media (max-width:900px){
+  /* à l'affichage desktop, on cache ces éléments mobiles */
+  .mobnav{display:flex;gap:8px}
+}
+.mobnav{display:none}
+.mobnav button{flex:1;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-weight:500;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px}
+.mobnav button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+#openpanel{display:none}
+@media (max-width:900px){#openpanel{display:flex}}
+</style>
+</head>
+<body>
+<noscript>
+<div class="nojs">
+  <div class="nj-brand">Med<span>Board</span> · Acteurs du projet</div>
+  <p class="nj-warn"><b>Aperçu statique.</b> Cet écran n'exécute pas JavaScript : la constellation ne peut ni tourner ni s'ouvrir au toucher. C'est le cas sur iPhone pour tout fichier HTML ouvert depuis Fichiers, Mail ou une messagerie. Pour la version interactive, ouvrez la page depuis son adresse web dans Safari.</p>
+  <figure class="nj-fig"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 94 390 547" role="img" aria-label="Constellation des acteurs : quatre cercles (fondateurs, collectivités, partenaires, pôles et associations) reliés aux dix actions au centre"><defs><radialGradient id="njbg" cx="50%" cy="45%" r="75%"><stop offset="0" stop-color="#0e1a2e"/><stop offset="1" stop-color="#050811"/></radialGradient></defs><rect x="0" y="94" width="390" height="547" fill="url(#njbg)"/><path d="M244.1 418.8L240.6 420L236.9 421L232.9 422L228.7 422.8L224.3 423.6L219.8 424.2L215.1 424.7L210.3 425.1L205.5 425.4L200.6 425.6L195.6 425.7L190.7 425.6L185.7 425.5L180.9 425.2L176.1 424.8L171.4 424.3L166.8 423.7L162.4 423L158.1 422.2L154.1 421.3L150.3 420.2L146.7 419.1L143.5 417.9L140.5 416.6L137.9 415.3L135.7 413.8L133.9 412.3L132.5 410.7L131.6 409.1L131.1 407.5L131.1 405.8L131.6 404.1L132.6 402.4L134.1 400.8L136.2 399.1L138.8 397.5L141.9 396L145.5 394.6L149.5 393.2L154 392L158.9 390.9L164.2 389.9L169.8 389.1L175.7 388.5L181.7 388L187.9 387.7L194.2 387.6L200.5 387.7L206.7 387.9L212.8 388.3L218.8 388.9L224.4 389.7L229.8 390.6L234.8 391.7L239.4 392.9L243.6 394.2L247.3 395.7L250.5 397.2L253.2 398.7L255.4 400.3L257.1 402L258.2 403.7L258.8 405.4L259 407L258.6 408.7L257.8 410.3L256.5 411.9L254.8 413.4L252.6 414.9L250.1 416.3L247.3 417.6Z" fill="#4dd4ff" fill-opacity="0.06"/><path d="M244.1 418.8L240.6 420M240.6 420L236.9 421M236.9 421L232.9 422M232.9 422L228.7 422.8M228.7 422.8L224.3 423.6M224.3 423.6L219.8 424.2M219.8 424.2L215.1 424.7M215.1 424.7L210.3 425.1M210.3 425.1L205.5 425.4M205.5 425.4L200.6 425.6M200.6 425.6L195.6 425.7M195.6 425.7L190.7 425.6M190.7 425.6L185.7 425.5M185.7 425.5L180.9 425.2M180.9 425.2L176.1 424.8M176.1 424.8L171.4 424.3M171.4 424.3L166.8 423.7M166.8 423.7L162.4 423M162.4 423L158.1 422.2M158.1 422.2L154.1 421.3M154.1 421.3L150.3 420.2M150.3 420.2L146.7 419.1M146.7 419.1L143.5 417.9M143.5 417.9L140.5 416.6M140.5 416.6L137.9 415.3M137.9 415.3L135.7 413.8M135.7 413.8L133.9 412.3M133.9 412.3L132.5 410.7M132.5 410.7L131.6 409.1M258.6 408.7L257.8 410.3M257.8 410.3L256.5 411.9M256.5 411.9L254.8 413.4M254.8 413.4L252.6 414.9M252.6 414.9L250.1 416.3M250.1 416.3L247.3 417.6M247.3 417.6L244.1 418.8" fill="none" stroke="#4dd4ff" stroke-opacity="0.28" stroke-width="1.1"/><path d="M131.6 409.1L131.1 407.5M131.1 407.5L131.1 405.8M131.1 405.8L131.6 404.1M131.6 404.1L132.6 402.4M132.6 402.4L134.1 400.8M134.1 400.8L136.2 399.1M136.2 399.1L138.8 397.5M138.8 397.5L141.9 396M141.9 396L145.5 394.6M145.5 394.6L149.5 393.2M149.5 393.2L154 392M154 392L158.9 390.9M158.9 390.9L164.2 389.9M164.2 389.9L169.8 389.1M169.8 389.1L175.7 388.5M175.7 388.5L181.7 388M181.7 388L187.9 387.7M187.9 387.7L194.2 387.6M194.2 387.6L200.5 387.7M200.5 387.7L206.7 387.9M206.7 387.9L212.8 388.3M212.8 388.3L218.8 388.9M218.8 388.9L224.4 389.7M224.4 389.7L229.8 390.6M229.8 390.6L234.8 391.7M234.8 391.7L239.4 392.9M239.4 392.9L243.6 394.2M243.6 394.2L247.3 395.7M247.3 395.7L250.5 397.2M250.5 397.2L253.2 398.7M253.2 398.7L255.4 400.3M255.4 400.3L257.1 402M257.1 402L258.2 403.7M258.2 403.7L258.8 405.4M258.8 405.4L259 407M259 407L258.6 408.7" fill="none" stroke="#4dd4ff" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/><path d="M131.6 409.1L131.1 407.5M131.1 407.5L131.1 405.8M131.1 405.8L131.6 404.1M131.6 404.1L132.6 402.4M132.6 402.4L134.1 400.8M134.1 400.8L136.2 399.1M136.2 399.1L138.8 397.5M138.8 397.5L141.9 396M141.9 396L145.5 394.6M145.5 394.6L149.5 393.2M149.5 393.2L154 392M154 392L158.9 390.9M158.9 390.9L164.2 389.9M164.2 389.9L169.8 389.1M169.8 389.1L175.7 388.5M175.7 388.5L181.7 388M181.7 388L187.9 387.7M187.9 387.7L194.2 387.6M194.2 387.6L200.5 387.7M200.5 387.7L206.7 387.9M206.7 387.9L212.8 388.3M212.8 388.3L218.8 388.9M218.8 388.9L224.4 389.7M224.4 389.7L229.8 390.6M229.8 390.6L234.8 391.7M234.8 391.7L239.4 392.9M239.4 392.9L243.6 394.2M243.6 394.2L247.3 395.7M247.3 395.7L250.5 397.2M250.5 397.2L253.2 398.7M253.2 398.7L255.4 400.3M255.4 400.3L257.1 402M257.1 402L258.2 403.7M258.2 403.7L258.8 405.4M258.8 405.4L259 407M259 407L258.6 408.7" fill="none" stroke="#4dd4ff" stroke-opacity="0.95" stroke-width="1" stroke-linecap="round"/><path d="M293.7 261.1L286 264.4L277.9 267.4L269.6 270.1L261 272.5L252.1 274.5L243.1 276.3L233.9 277.7L224.6 278.8L215.1 279.6L205.7 280.1L196.2 280.3L186.7 280.2L177.2 279.8L167.8 279L158.4 278L149.2 276.7L140.1 275L131.2 273L122.5 270.7L114.1 268.1L106 265.2L98.2 262L90.8 258.4L83.9 254.5L77.5 250.3L71.7 245.8L66.5 241L62.1 235.9L58.4 230.5L55.7 224.8L54 219L53.3 212.9L53.8 206.8L55.4 200.5L58.4 194.1L62.8 187.8L68.5 181.6L75.6 175.6L84.2 169.9L94.1 164.5L105.4 159.6L117.9 155.2L131.5 151.5L146 148.5L161.2 146.2L177 144.8L193 144.3L209.1 144.6L224.9 145.8L240.3 147.8L255 150.7L268.8 154.2L281.6 158.4L293.2 163.2L303.5 168.5L312.4 174.2L319.9 180.1L325.9 186.3L330.6 192.6L333.9 198.9L335.9 205.2L336.7 211.4L336.3 217.5L334.8 223.4L332.3 229.1L328.9 234.5L324.7 239.7L319.7 244.6L314 249.2L307.8 253.5L301 257.5Z" fill="#4dd4ff" fill-opacity="0.06"/><path d="M293.7 261.1L286 264.4M286 264.4L277.9 267.4M277.9 267.4L269.6 270.1M269.6 270.1L261 272.5M261 272.5L252.1 274.5M252.1 274.5L243.1 276.3M243.1 276.3L233.9 277.7M233.9 277.7L224.6 278.8M224.6 278.8L215.1 279.6M215.1 279.6L205.7 280.1M205.7 280.1L196.2 280.3M196.2 280.3L186.7 280.2M186.7 280.2L177.2 279.8M177.2 279.8L167.8 279M167.8 279L158.4 278M158.4 278L149.2 276.7M149.2 276.7L140.1 275M140.1 275L131.2 273M131.2 273L122.5 270.7M122.5 270.7L114.1 268.1M114.1 268.1L106 265.2M106 265.2L98.2 262M98.2 262L90.8 258.4M90.8 258.4L83.9 254.5M83.9 254.5L77.5 250.3M77.5 250.3L71.7 245.8M71.7 245.8L66.5 241M66.5 241L62.1 235.9M62.1 235.9L58.4 230.5M58.4 230.5L55.7 224.8M55.7 224.8L54 219M54 219L53.3 212.9M336.3 217.5L334.8 223.4M334.8 223.4L332.3 229.1M332.3 229.1L328.9 234.5M328.9 234.5L324.7 239.7M324.7 239.7L319.7 244.6M319.7 244.6L314 249.2M314 249.2L307.8 253.5M307.8 253.5L301 257.5M301 257.5L293.7 261.1" fill="none" stroke="#4dd4ff" stroke-opacity="0.28" stroke-width="1.1"/><path d="M53.3 212.9L53.8 206.8M53.8 206.8L55.4 200.5M55.4 200.5L58.4 194.1M58.4 194.1L62.8 187.8M62.8 187.8L68.5 181.6M68.5 181.6L75.6 175.6M75.6 175.6L84.2 169.9M84.2 169.9L94.1 164.5M94.1 164.5L105.4 159.6M105.4 159.6L117.9 155.2M117.9 155.2L131.5 151.5M131.5 151.5L146 148.5M146 148.5L161.2 146.2M161.2 146.2L177 144.8M177 144.8L193 144.3M193 144.3L209.1 144.6M209.1 144.6L224.9 145.8M224.9 145.8L240.3 147.8M240.3 147.8L255 150.7M255 150.7L268.8 154.2M268.8 154.2L281.6 158.4M281.6 158.4L293.2 163.2M293.2 163.2L303.5 168.5M303.5 168.5L312.4 174.2M312.4 174.2L319.9 180.1M319.9 180.1L325.9 186.3M325.9 186.3L330.6 192.6M330.6 192.6L333.9 198.9M333.9 198.9L335.9 205.2M335.9 205.2L336.7 211.4M336.7 211.4L336.3 217.5" fill="none" stroke="#4dd4ff" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/><path d="M53.3 212.9L53.8 206.8M53.8 206.8L55.4 200.5M55.4 200.5L58.4 194.1M58.4 194.1L62.8 187.8M62.8 187.8L68.5 181.6M68.5 181.6L75.6 175.6M75.6 175.6L84.2 169.9M84.2 169.9L94.1 164.5M94.1 164.5L105.4 159.6M105.4 159.6L117.9 155.2M117.9 155.2L131.5 151.5M131.5 151.5L146 148.5M146 148.5L161.2 146.2M161.2 146.2L177 144.8M177 144.8L193 144.3M193 144.3L209.1 144.6M209.1 144.6L224.9 145.8M224.9 145.8L240.3 147.8M240.3 147.8L255 150.7M255 150.7L268.8 154.2M268.8 154.2L281.6 158.4M281.6 158.4L293.2 163.2M293.2 163.2L303.5 168.5M303.5 168.5L312.4 174.2M312.4 174.2L319.9 180.1M319.9 180.1L325.9 186.3M325.9 186.3L330.6 192.6M330.6 192.6L333.9 198.9M333.9 198.9L335.9 205.2M335.9 205.2L336.7 211.4M336.7 211.4L336.3 217.5" fill="none" stroke="#4dd4ff" stroke-opacity="0.95" stroke-width="1.4" stroke-linecap="round"/><path d="M314.3 355.6L304.7 358.8L294.7 361.6L284.4 364.1L273.9 366.3L263.2 368.2L252.3 369.8L241.3 371.1L230.1 372.2L218.9 372.9L207.7 373.4L196.4 373.5L185.1 373.4L173.9 373L162.7 372.4L151.5 371.4L140.5 370.2L129.5 368.7L118.8 366.8L108.2 364.7L97.9 362.3L87.8 359.5L78 356.5L68.7 353.1L59.8 349.3L51.4 345.3L43.6 340.9L36.5 336.2L30.2 331.1L24.8 325.7L20.4 320L17.2 314L15.2 307.7L14.7 301.2L15.7 294.5L18.4 287.6L22.8 280.8L29.2 273.9L37.6 267.1L48 260.6L60.4 254.4L74.8 248.7L91.1 243.6L109 239.2L128.4 235.6L149 232.9L170.4 231.2L192.3 230.5L214.2 230.9L235.7 232.4L256.5 234.8L276.3 238.2L294.6 242.4L311.3 247.4L326.2 253L339.1 259.1L350 265.5L358.9 272.2L365.8 279L370.7 285.9L373.8 292.8L375.2 299.5L375 306.1L373.4 312.4L370.5 318.5L366.4 324.3L361.2 329.8L355.1 334.9L348.2 339.7L340.6 344.2L332.4 348.4L323.6 352.2Z" fill="#ffb562" fill-opacity="0.06"/><path d="M314.3 355.6L304.7 358.8M304.7 358.8L294.7 361.6M294.7 361.6L284.4 364.1M284.4 364.1L273.9 366.3M273.9 366.3L263.2 368.2M263.2 368.2L252.3 369.8M252.3 369.8L241.3 371.1M241.3 371.1L230.1 372.2M230.1 372.2L218.9 372.9M218.9 372.9L207.7 373.4M207.7 373.4L196.4 373.5M196.4 373.5L185.1 373.4M185.1 373.4L173.9 373M173.9 373L162.7 372.4M162.7 372.4L151.5 371.4M151.5 371.4L140.5 370.2M140.5 370.2L129.5 368.7M129.5 368.7L118.8 366.8M118.8 366.8L108.2 364.7M108.2 364.7L97.9 362.3M97.9 362.3L87.8 359.5M87.8 359.5L78 356.5M78 356.5L68.7 353.1M68.7 353.1L59.8 349.3M59.8 349.3L51.4 345.3M51.4 345.3L43.6 340.9M43.6 340.9L36.5 336.2M36.5 336.2L30.2 331.1M30.2 331.1L24.8 325.7M24.8 325.7L20.4 320M370.5 318.5L366.4 324.3M366.4 324.3L361.2 329.8M361.2 329.8L355.1 334.9M355.1 334.9L348.2 339.7M348.2 339.7L340.6 344.2M340.6 344.2L332.4 348.4M332.4 348.4L323.6 352.2M323.6 352.2L314.3 355.6" fill="none" stroke="#ffb562" stroke-opacity="0.28" stroke-width="1.1"/><path d="M20.4 320L17.2 314M17.2 314L15.2 307.7M15.2 307.7L14.7 301.2M14.7 301.2L15.7 294.5M15.7 294.5L18.4 287.6M18.4 287.6L22.8 280.8M22.8 280.8L29.2 273.9M29.2 273.9L37.6 267.1M37.6 267.1L48 260.6M48 260.6L60.4 254.4M60.4 254.4L74.8 248.7M74.8 248.7L91.1 243.6M91.1 243.6L109 239.2M109 239.2L128.4 235.6M128.4 235.6L149 232.9M149 232.9L170.4 231.2M170.4 231.2L192.3 230.5M192.3 230.5L214.2 230.9M214.2 230.9L235.7 232.4M235.7 232.4L256.5 234.8M256.5 234.8L276.3 238.2M276.3 238.2L294.6 242.4M294.6 242.4L311.3 247.4M311.3 247.4L326.2 253M326.2 253L339.1 259.1M339.1 259.1L350 265.5M350 265.5L358.9 272.2M358.9 272.2L365.8 279M365.8 279L370.7 285.9M370.7 285.9L373.8 292.8M373.8 292.8L375.2 299.5M375.2 299.5L375 306.1M375 306.1L373.4 312.4M373.4 312.4L370.5 318.5" fill="none" stroke="#ffb562" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/><path d="M20.4 320L17.2 314M17.2 314L15.2 307.7M15.2 307.7L14.7 301.2M14.7 301.2L15.7 294.5M15.7 294.5L18.4 287.6M18.4 287.6L22.8 280.8M22.8 280.8L29.2 273.9M29.2 273.9L37.6 267.1M37.6 267.1L48 260.6M48 260.6L60.4 254.4M60.4 254.4L74.8 248.7M74.8 248.7L91.1 243.6M91.1 243.6L109 239.2M109 239.2L128.4 235.6M128.4 235.6L149 232.9M149 232.9L170.4 231.2M170.4 231.2L192.3 230.5M192.3 230.5L214.2 230.9M214.2 230.9L235.7 232.4M235.7 232.4L256.5 234.8M256.5 234.8L276.3 238.2M276.3 238.2L294.6 242.4M294.6 242.4L311.3 247.4M311.3 247.4L326.2 253M326.2 253L339.1 259.1M339.1 259.1L350 265.5M350 265.5L358.9 272.2M358.9 272.2L365.8 279M365.8 279L370.7 285.9M370.7 285.9L373.8 292.8M373.8 292.8L375.2 299.5M375.2 299.5L375 306.1M375 306.1L373.4 312.4M373.4 312.4L370.5 318.5" fill="none" stroke="#ffb562" stroke-opacity="0.95" stroke-width="1.4" stroke-linecap="round"/><path d="M320.1 522.1L309.9 523.9L299.3 525.5L288.5 526.8L277.5 528.1L266.2 529.1L254.8 530L243.3 530.7L231.7 531.3L220 531.7L208.2 532L196.5 532.1L184.7 532L173 531.8L161.2 531.4L149.6 530.9L138 530.2L126.6 529.4L115.3 528.3L104.2 527.2L93.3 525.8L82.7 524.3L72.4 522.6L62.5 520.7L53 518.6L44 516.3L35.6 513.9L27.9 511.2L21 508.3L15 505.3L10.1 502L6.3 498.6L3.9 495L2.9 491.3L3.6 487.4L6.1 483.5L10.5 479.5L17 475.4L25.6 471.5L36.5 467.7L49.6 464L65 460.6L82.4 457.6L101.7 454.9L122.7 452.8L145 451.2L168.3 450.2L192 449.8L215.8 450L239.3 450.9L261.9 452.3L283.2 454.4L303 456.9L320.9 459.8L336.7 463.1L350.4 466.7L361.9 470.5L371.1 474.5L378.1 478.5L383 482.5L385.9 486.4L387.1 490.3L386.5 494.1L384.4 497.7L381 501.2L376.3 504.5L370.6 507.6L363.9 510.5L356.4 513.2L348.2 515.7L339.3 518.1L329.9 520.2Z" fill="#b57dff" fill-opacity="0.06"/><path d="M320.1 522.1L309.9 523.9M309.9 523.9L299.3 525.5M299.3 525.5L288.5 526.8M288.5 526.8L277.5 528.1M277.5 528.1L266.2 529.1M266.2 529.1L254.8 530M254.8 530L243.3 530.7M243.3 530.7L231.7 531.3M231.7 531.3L220 531.7M220 531.7L208.2 532M208.2 532L196.5 532.1M196.5 532.1L184.7 532M184.7 532L173 531.8M173 531.8L161.2 531.4M161.2 531.4L149.6 530.9M149.6 530.9L138 530.2M138 530.2L126.6 529.4M126.6 529.4L115.3 528.3M115.3 528.3L104.2 527.2M104.2 527.2L93.3 525.8M93.3 525.8L82.7 524.3M82.7 524.3L72.4 522.6M72.4 522.6L62.5 520.7M62.5 520.7L53 518.6M53 518.6L44 516.3M44 516.3L35.6 513.9M35.6 513.9L27.9 511.2M27.9 511.2L21 508.3M370.6 507.6L363.9 510.5M363.9 510.5L356.4 513.2M356.4 513.2L348.2 515.7M348.2 515.7L339.3 518.1M339.3 518.1L329.9 520.2M329.9 520.2L320.1 522.1" fill="none" stroke="#b57dff" stroke-opacity="0.28" stroke-width="1.1"/><path d="M21 508.3L15 505.3M15 505.3L10.1 502M10.1 502L6.3 498.6M6.3 498.6L3.9 495M3.9 495L2.9 491.3M2.9 491.3L3.6 487.4M3.6 487.4L6.1 483.5M6.1 483.5L10.5 479.5M10.5 479.5L17 475.4M17 475.4L25.6 471.5M25.6 471.5L36.5 467.7M36.5 467.7L49.6 464M49.6 464L65 460.6M65 460.6L82.4 457.6M82.4 457.6L101.7 454.9M101.7 454.9L122.7 452.8M122.7 452.8L145 451.2M145 451.2L168.3 450.2M168.3 450.2L192 449.8M192 449.8L215.8 450M215.8 450L239.3 450.9M239.3 450.9L261.9 452.3M261.9 452.3L283.2 454.4M283.2 454.4L303 456.9M303 456.9L320.9 459.8M320.9 459.8L336.7 463.1M336.7 463.1L350.4 466.7M350.4 466.7L361.9 470.5M361.9 470.5L371.1 474.5M371.1 474.5L378.1 478.5M378.1 478.5L383 482.5M383 482.5L385.9 486.4M385.9 486.4L387.1 490.3M387.1 490.3L386.5 494.1M386.5 494.1L384.4 497.7M384.4 497.7L381 501.2M381 501.2L376.3 504.5M376.3 504.5L370.6 507.6" fill="none" stroke="#b57dff" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/><path d="M21 508.3L15 505.3M15 505.3L10.1 502M10.1 502L6.3 498.6M6.3 498.6L3.9 495M3.9 495L2.9 491.3M2.9 491.3L3.6 487.4M3.6 487.4L6.1 483.5M6.1 483.5L10.5 479.5M10.5 479.5L17 475.4M17 475.4L25.6 471.5M25.6 471.5L36.5 467.7M36.5 467.7L49.6 464M49.6 464L65 460.6M65 460.6L82.4 457.6M82.4 457.6L101.7 454.9M101.7 454.9L122.7 452.8M122.7 452.8L145 451.2M145 451.2L168.3 450.2M168.3 450.2L192 449.8M192 449.8L215.8 450M215.8 450L239.3 450.9M239.3 450.9L261.9 452.3M261.9 452.3L283.2 454.4M283.2 454.4L303 456.9M303 456.9L320.9 459.8M320.9 459.8L336.7 463.1M336.7 463.1L350.4 466.7M350.4 466.7L361.9 470.5M361.9 470.5L371.1 474.5M371.1 474.5L378.1 478.5M378.1 478.5L383 482.5M383 482.5L385.9 486.4M385.9 486.4L387.1 490.3M387.1 490.3L386.5 494.1M386.5 494.1L384.4 497.7M384.4 497.7L381 501.2M381 501.2L376.3 504.5M376.3 504.5L370.6 507.6" fill="none" stroke="#b57dff" stroke-opacity="0.95" stroke-width="1.4" stroke-linecap="round"/><path d="M304.3 616.3L295.7 617L286.6 617.7L277.3 618.3L267.7 618.8L257.9 619.3L247.9 619.7L237.7 620L227.5 620.2L217.1 620.4L206.7 620.5L196.3 620.6L185.9 620.5L175.5 620.4L165.1 620.3L154.8 620L144.7 619.7L134.6 619.4L124.8 618.9L115.1 618.4L105.7 617.8L96.6 617.2L87.8 616.4L79.4 615.6L71.5 614.8L64.1 613.8L57.3 612.8L51.2 611.6L45.8 610.5L41.3 609.2L37.8 607.9L35.3 606.5L34.1 605.1L34.1 603.6L35.5 602.1L38.4 600.5L42.9 599L49 597.5L56.8 596L66.3 594.6L77.5 593.2L90.4 592L104.7 590.9L120.5 590L137.4 589.2L155.3 588.6L173.8 588.3L192.6 588.1L211.6 588.2L230.2 588.5L248.2 589L265.4 589.8L281.5 590.7L296.2 591.7L309.4 592.9L321.1 594.2L331 595.7L339.2 597.1L345.8 598.6L350.7 600.2L353.9 601.7L355.7 603.2L356 604.7L355.1 606.2L352.9 607.5L349.6 608.9L345.4 610.2L340.3 611.4L334.3 612.5L327.7 613.5L320.4 614.5L312.6 615.4Z" fill="#ff6b9d" fill-opacity="0.06"/><path d="M304.3 616.3L295.7 617M295.7 617L286.6 617.7M286.6 617.7L277.3 618.3M277.3 618.3L267.7 618.8M267.7 618.8L257.9 619.3M257.9 619.3L247.9 619.7M247.9 619.7L237.7 620M237.7 620L227.5 620.2M227.5 620.2L217.1 620.4M217.1 620.4L206.7 620.5M206.7 620.5L196.3 620.6M196.3 620.6L185.9 620.5M185.9 620.5L175.5 620.4M175.5 620.4L165.1 620.3M165.1 620.3L154.8 620M154.8 620L144.7 619.7M144.7 619.7L134.6 619.4M134.6 619.4L124.8 618.9M124.8 618.9L115.1 618.4M115.1 618.4L105.7 617.8M105.7 617.8L96.6 617.2M96.6 617.2L87.8 616.4M87.8 616.4L79.4 615.6M79.4 615.6L71.5 614.8M71.5 614.8L64.1 613.8M64.1 613.8L57.3 612.8M57.3 612.8L51.2 611.6M334.3 612.5L327.7 613.5M327.7 613.5L320.4 614.5M320.4 614.5L312.6 615.4M312.6 615.4L304.3 616.3" fill="none" stroke="#ff6b9d" stroke-opacity="0.28" stroke-width="1.1"/><path d="M51.2 611.6L45.8 610.5M45.8 610.5L41.3 609.2M41.3 609.2L37.8 607.9M37.8 607.9L35.3 606.5M35.3 606.5L34.1 605.1M34.1 605.1L34.1 603.6M34.1 603.6L35.5 602.1M35.5 602.1L38.4 600.5M38.4 600.5L42.9 599M42.9 599L49 597.5M49 597.5L56.8 596M56.8 596L66.3 594.6M66.3 594.6L77.5 593.2M77.5 593.2L90.4 592M90.4 592L104.7 590.9M104.7 590.9L120.5 590M120.5 590L137.4 589.2M137.4 589.2L155.3 588.6M155.3 588.6L173.8 588.3M173.8 588.3L192.6 588.1M192.6 588.1L211.6 588.2M211.6 588.2L230.2 588.5M230.2 588.5L248.2 589M248.2 589L265.4 589.8M265.4 589.8L281.5 590.7M281.5 590.7L296.2 591.7M296.2 591.7L309.4 592.9M309.4 592.9L321.1 594.2M321.1 594.2L331 595.7M331 595.7L339.2 597.1M339.2 597.1L345.8 598.6M345.8 598.6L350.7 600.2M350.7 600.2L353.9 601.7M353.9 601.7L355.7 603.2M355.7 603.2L356 604.7M356 604.7L355.1 606.2M355.1 606.2L352.9 607.5M352.9 607.5L349.6 608.9M349.6 608.9L345.4 610.2M345.4 610.2L340.3 611.4M340.3 611.4L334.3 612.5" fill="none" stroke="#ff6b9d" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/><path d="M51.2 611.6L45.8 610.5M45.8 610.5L41.3 609.2M41.3 609.2L37.8 607.9M37.8 607.9L35.3 606.5M35.3 606.5L34.1 605.1M34.1 605.1L34.1 603.6M34.1 603.6L35.5 602.1M35.5 602.1L38.4 600.5M38.4 600.5L42.9 599M42.9 599L49 597.5M49 597.5L56.8 596M56.8 596L66.3 594.6M66.3 594.6L77.5 593.2M77.5 593.2L90.4 592M90.4 592L104.7 590.9M104.7 590.9L120.5 590M120.5 590L137.4 589.2M137.4 589.2L155.3 588.6M155.3 588.6L173.8 588.3M173.8 588.3L192.6 588.1M192.6 588.1L211.6 588.2M211.6 588.2L230.2 588.5M230.2 588.5L248.2 589M248.2 589L265.4 589.8M265.4 589.8L281.5 590.7M281.5 590.7L296.2 591.7M296.2 591.7L309.4 592.9M309.4 592.9L321.1 594.2M321.1 594.2L331 595.7M331 595.7L339.2 597.1M339.2 597.1L345.8 598.6M345.8 598.6L350.7 600.2M350.7 600.2L353.9 601.7M353.9 601.7L355.7 603.2M355.7 603.2L356 604.7M356 604.7L355.1 606.2M355.1 606.2L352.9 607.5M352.9 607.5L349.6 608.9M349.6 608.9L345.4 610.2M345.4 610.2L340.3 611.4M340.3 611.4L334.3 612.5" fill="none" stroke="#ff6b9d" stroke-opacity="0.95" stroke-width="1.4" stroke-linecap="round"/><line x1="317.5" y1="246.5" x2="234.8" y2="391.7" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="317.5" y1="246.5" x2="257.3" y2="402.3" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="317.5" y1="246.5" x2="254" y2="414" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="317.5" y1="246.5" x2="196.6" y2="425.7" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="317.5" y1="246.5" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="264.4" y1="271.6" x2="234.8" y2="391.7" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="264.4" y1="271.6" x2="230.4" y2="422.5" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="264.4" y1="271.6" x2="162.4" y2="423" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="54.2" y1="220.1" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="54.2" y1="220.1" x2="152.2" y2="392.5" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="198.1" y1="280.3" x2="196.6" y2="425.7" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="125.4" y1="271.5" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="68" y1="242.5" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="92.9" y1="259.5" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="336.2" y1="206.4" x2="257.3" y2="402.3" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="199.8" y1="144.3" x2="193" y2="387.6" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="82.1" y1="171.2" x2="131.9" y2="403.4" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="82.1" y1="171.2" x2="152.2" y2="392.5" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="57.8" y1="195.3" x2="131.9" y2="403.4" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="57.8" y1="195.3" x2="152.2" y2="392.5" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="130.1" y1="151.8" x2="137.5" y2="415" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="130.1" y1="151.8" x2="193" y2="387.6" stroke="#4dd4ff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="200.3" y1="373.5" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="200.3" y1="373.5" x2="162.4" y2="423" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="99.3" y1="241.4" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="99.3" y1="241.4" x2="193" y2="387.6" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="367.8" y1="281.5" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="269.5" y1="236.9" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="292.6" y1="362.2" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="360.9" y1="330.1" x2="257.3" y2="402.3" stroke="#ffb562" stroke-opacity="0.32" stroke-width="0.9"/><line x1="146.1" y1="530.7" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="5.7" y1="483.9" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="44.3" y1="516.4" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="209.8" y1="531.9" x2="230.4" y2="422.5" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="209.8" y1="531.9" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="11" y1="502.7" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="91" y1="525.5" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="6.2" y1="483.3" x2="137.5" y2="415" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="334.3" y1="519.2" x2="230.4" y2="422.5" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="275" y1="528.3" x2="230.4" y2="422.5" stroke="#b57dff" stroke-opacity="0.32" stroke-width="0.9"/><line x1="58.9" y1="595.7" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="58.9" y1="595.7" x2="131.9" y2="403.4" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="288.4" y1="591.1" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="297" y1="616.9" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="346.8" y1="609.8" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="345.6" y1="610.1" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="345.6" y1="610.1" x2="137.5" y2="415" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="351" y1="600.3" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="161.3" y1="588.5" x2="257.3" y2="402.3" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><line x1="161.3" y1="588.5" x2="131.9" y2="403.4" stroke="#ff6b9d" stroke-opacity="0.32" stroke-width="0.9"/><path d="M200.3 366.6L207.2 373.5L200.3 380.4L193.4 373.5Z" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><circle cx="198.1" cy="280.3" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="209.8" cy="531.9" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><circle cx="146.1" cy="530.7" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><path d="M264.4 264.7L271.3 271.6L264.4 278.5L257.6 271.6Z" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="125.4" cy="271.5" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="292.6" cy="362.2" r="5.5" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><circle cx="275" cy="528.3" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><rect x="88" y="254.5" width="9.9" height="9.9" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><rect x="86.1" y="520.6" width="9.9" height="9.9" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><circle cx="317.5" cy="246.5" r="6.4" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="334.3" cy="519.2" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><circle cx="196.6" cy="425.7" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="196.6" cy="425.7" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="196.6" y="426.2" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A5</text><circle cx="68" cy="242.5" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="297" cy="616.9" r="5.5" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><circle cx="162.4" cy="423" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="162.4" cy="423" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="162.4" y="423.5" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A6</text><circle cx="230.4" cy="422.5" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="230.4" cy="422.5" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="230.4" y="423" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A4</text><rect x="39.3" y="511.5" width="9.9" height="9.9" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><circle cx="360.9" cy="330.1" r="5.5" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><circle cx="137.5" cy="415" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="137.5" cy="415" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="137.5" y="415.5" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A7</text><circle cx="254" cy="414" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="254" cy="414" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="254" y="414.5" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A3</text><circle cx="54.2" cy="220.1" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="131.9" cy="403.4" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="131.9" cy="403.4" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="131.9" y="403.9" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A8</text><circle cx="336.2" cy="206.4" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="257.3" cy="402.3" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="257.3" cy="402.3" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="257.3" y="402.8" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A2</text><circle cx="345.6" cy="610.1" r="5.5" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><circle cx="346.8" cy="609.8" r="5.5" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><rect x="6.1" y="497.8" width="9.9" height="9.9" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><path d="M57.8 188.4L64.6 195.3L57.8 202.2L50.9 195.3Z" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="152.2" cy="392.5" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="152.2" cy="392.5" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="152.2" y="393" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A9</text><circle cx="234.8" cy="391.7" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="234.8" cy="391.7" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="234.8" y="392.2" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A1</text><circle cx="193" cy="387.6" r="13" fill="#0b1a26" stroke="#dffcff" stroke-width="1.3"/><circle cx="193" cy="387.6" r="13" fill="#5ffbff" fill-opacity="0.14"/><text x="193" y="388.1" fill="#eafeff" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="700" font-size="10" text-anchor="middle" dominant-baseline="central">A10</text><circle cx="82.1" cy="171.2" r="5.6" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="367.8" cy="281.5" r="5.5" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><circle cx="5.7" cy="483.9" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><circle cx="6.2" cy="483.3" r="5.5" fill="#b57dff" fill-opacity="0.32" stroke="#b57dff" stroke-width="1.3"/><rect x="124.7" y="146.4" width="10.8" height="10.8" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="351" cy="600.3" r="5.5" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><circle cx="199.8" cy="144.3" r="5.5" fill="#4dd4ff" fill-opacity="0.32" stroke="#4dd4ff" stroke-width="1.3"/><circle cx="58.9" cy="595.7" r="6.5" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><circle cx="99.3" cy="241.4" r="6.7" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><circle cx="269.5" cy="236.9" r="5.6" fill="#ffb562" fill-opacity="0.32" stroke="#ffb562" stroke-width="1.3"/><rect x="283.2" y="586" width="10.3" height="10.3" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><circle cx="161.3" cy="588.5" r="7.2" fill="#ff6b9d" fill-opacity="0.32" stroke="#ff6b9d" stroke-width="1.3"/><rect x="142.1" y="152.3" width="109.8" height="20" rx="10" fill="#070b14" fill-opacity="0.85" stroke="#4dd4ff"/><circle cx="152.1" cy="162.3" r="3.5" fill="#4dd4ff"/><text x="161.1" y="162.8" fill="#4dd4ff" font-family="system-ui,-apple-system,sans-serif" font-weight="700" font-size="10" dominant-baseline="central">FONDATEURS <tspan fill="#eaf2ff" fill-opacity="0.75">12</tspan></text><rect x="140.3" y="238.5" width="115" height="20" rx="10" fill="#070b14" fill-opacity="0.85" stroke="#ffb562"/><circle cx="150.3" cy="248.5" r="3.5" fill="#ffb562"/><text x="159.3" y="249" fill="#ffb562" font-family="system-ui,-apple-system,sans-serif" font-weight="700" font-size="10" dominant-baseline="central">COLLECTIVITÉS <tspan fill="#eaf2ff" fill-opacity="0.75">6</tspan></text><rect x="145.2" y="457.8" width="105.5" height="20" rx="10" fill="#070b14" fill-opacity="0.85" stroke="#b57dff"/><circle cx="155.2" cy="467.8" r="3.5" fill="#b57dff"/><text x="164.2" y="468.3" fill="#b57dff" font-family="system-ui,-apple-system,sans-serif" font-weight="700" font-size="10" dominant-baseline="central">PARTENAIRES <tspan fill="#eaf2ff" fill-opacity="0.75">9</tspan></text><rect x="140.1" y="596.1" width="114.6" height="20" rx="10" fill="#070b14" fill-opacity="0.85" stroke="#ff6b9d"/><circle cx="150.1" cy="606.1" r="3.5" fill="#ff6b9d"/><text x="159.1" y="606.6" fill="#ff6b9d" font-family="system-ui,-apple-system,sans-serif" font-weight="700" font-size="10" dominant-baseline="central">PÔLES &amp; ASSOS <tspan fill="#eaf2ff" fill-opacity="0.75">7</tspan></text><text x="198.5" y="265.8" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="middle" dominant-baseline="central">CNRS</text><text x="249.9" y="219.9" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">Università di Corsica</text><text x="118.1" y="259" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">INSERM</text><text x="84" y="235" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">IRD</text><text x="302.1" y="195.6" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">Université Côte d&#39;Azur</text><text x="58.6" y="231.4" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">INRAE</text><text x="45" y="208.9" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">INRIA</text><text x="321.7" y="142.7" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">Observatoire Côte d&#39;Azur</text><text x="49.4" y="183.4" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">Inizià</text><text x="75.4" y="158.2" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">IPCA</text><text x="126.2" y="137.3" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="end" dominant-baseline="central">INSERM Transfert</text><text x="200.1" y="116.8" fill="#f2f8ff" stroke="#070b14" stroke-width="4" stroke-linejoin="round" paint-order="stroke" font-family="system-ui,-apple-system,sans-serif" font-weight="500" font-size="10.5" text-anchor="middle" dominant-baseline="central">SATT Sud-Est</text></svg></figure>
+  <div class="nj-legend"><span>● rond : Côte d'Azur / PACA</span><span>◆ losange : Corse</span><span>■ carré : National</span></div>
+  <h2>Les 4 cercles</h2>
+  <section class="nj-cat" style="--c:#4dd4ff"><h3><span class="nj-dot"></span>Fondateurs <span class="nj-n">12</span></h3><ul><li><b>Université Côte d&#39;Azur</b><span class="nj-meta">Chef de file · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A1</i><i>A2</i><i>A3</i><i>A5</i><i>A7</i></span></li><li><b>Università di Corsica Pasquale Paoli</b><span class="nj-meta">Fondateur · Corse</span><span class="nj-acts"><i>A1</i><i>A4</i><i>A6</i></span></li><li><b>INRIA</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i><i>A9</i></span></li><li><b>CNRS</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A5</i></span></li><li><b>INSERM</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i></span></li><li><b>INRAE</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i></span></li><li><b>IRD</b><span class="nj-meta">Fondateur · National</span><span class="nj-acts"><i>A7</i></span></li><li><b>Observatoire Côte d&#39;Azur</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>SATT Sud-Est</b><span class="nj-meta">Fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A10</i></span></li><li><b>Incubateur Provence Côte d&#39;Azur (IPCA)</b><span class="nj-meta">Incubateur fondateur · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A8</i><i>A9</i></span></li><li><b>Inizià</b><span class="nj-meta">Incubateur fondateur · Corse</span><span class="nj-acts"><i>A8</i><i>A9</i></span></li><li><b>INSERM Transfert</b><span class="nj-meta">Fondateur · National</span><span class="nj-acts"><i>A7</i><i>A10</i></span></li></ul></section><section class="nj-cat" style="--c:#ffb562"><h3><span class="nj-dot"></span>Collectivités <span class="nj-n">6</span></h3><ul><li><b>Collectivité de Corse</b><span class="nj-meta">Partenaire institutionnel · Corse</span><span class="nj-acts"><i>A2</i><i>A6</i></span></li><li><b>Région Provence-Alpes-Côte d&#39;Azur</b><span class="nj-meta">Partenaire institutionnel · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i><i>A10</i></span></li><li><b>Métropole Nice Côte d&#39;Azur</b><span class="nj-meta">Partenaire institutionnel · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>Département des Alpes-Maritimes</b><span class="nj-meta">Partenaire institutionnel · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>CA du Pays de Grasse</b><span class="nj-meta">Partenaire institutionnel · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>CA de Sophia Antipolis</b><span class="nj-meta">Partenaire institutionnel · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li></ul></section><section class="nj-cat" style="--c:#b57dff"><h3><span class="nj-dot"></span>Partenaires académiques &amp; santé <span class="nj-n">9</span></h3><ul><li><b>CHU de Nice</b><span class="nj-meta">Partenaire hospitalier · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i></span></li><li><b>Centre Antoine Lacassagne</b><span class="nj-meta">Partenaire santé · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i></span></li><li><b>Sorbonne Université</b><span class="nj-meta">Partenaire académique · National</span><span class="nj-acts"><i>A7</i></span></li><li><b>Université de Toulon</b><span class="nj-meta">Partenaire académique · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A4</i><i>A7</i></span></li><li><b>Université Gustave Eiffel</b><span class="nj-meta">Partenaire académique · National</span><span class="nj-acts"><i>A7</i></span></li><li><b>Université PSL</b><span class="nj-meta">Partenaire académique · National</span><span class="nj-acts"><i>A7</i></span></li><li><b>Eurecom</b><span class="nj-meta">Partenaire académique · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A7</i></span></li><li><b>EDHEC Business School</b><span class="nj-meta">Partenaire académique · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A4</i></span></li><li><b>SKEMA Business School</b><span class="nj-meta">Partenaire académique · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A4</i></span></li></ul></section><section class="nj-cat" style="--c:#ff6b9d"><h3><span class="nj-dot"></span>Pôles &amp; associations <span class="nj-n">7</span></h3><ul><li><b>Eurobiomed</b><span class="nj-meta">Pôle de compétitivité · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i><i>A8</i></span></li><li><b>Cosmetic Valley</b><span class="nj-meta">Pôle de compétitivité · National</span><span class="nj-acts"><i>A2</i></span></li><li><b>Capenergies</b><span class="nj-meta">Pôle de compétitivité · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>Pôle Optitec</b><span class="nj-meta">Pôle de compétitivité · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>Cancéropôle PACA</b><span class="nj-meta">Pôle de compétitivité · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i><i>A7</i></span></li><li><b>Telecom Valley</b><span class="nj-meta">Association professionnelle · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i></span></li><li><b>Rising Sud</b><span class="nj-meta">Association entreprises · Côte d&#39;Azur / PACA</span><span class="nj-acts"><i>A2</i><i>A8</i></span></li></ul></section>
+  <h2>Les 10 actions</h2>
+  <ol class="nj-actlist"><li><i>A1</i><span>Attractivité des métiers &amp; structuration opérationnelle</span><small>M1–M48 · 2 acteurs</small></li><li><i>A2</i><span>Rayonnement de l&#39;Innovation</span><small>M1–M48 · 15 acteurs</small></li><li><i>A3</i><span>Automatisation de la gestion des données</span><small>M1–M48 · 1 acteurs</small></li><li><i>A4</i><span>Catalogue commun de formations à l&#39;Innovation</span><small>M2–M48 · 4 acteurs</small></li><li><i>A5</i><span>Service commun d&#39;analyse des publications scientifiques</span><small>M1–M46 · 2 acteurs</small></li><li><i>A6</i><span>Intégration et transformation des Fablabs — SILEX</span><small>M1–M48 · 2 acteurs</small></li><li><i>A7</i><span>Soutien ciblé aux projets de recherche et d&#39;Innovation</span><small>M1–M48 · 14 acteurs</small></li><li><i>A8</i><span>Complémentarité des expertises</span><small>M1–M48 · 4 acteurs</small></li><li><i>A9</i><span>Bourses des incubés et entrepreneurs en résidence</span><small>M1–M48 · 3 acteurs</small></li><li><i>A10</i><span>Développement expérimental (optionnel)</span><small>M1–M48 · 3 acteurs</small></li></ol>
+</div>
+</noscript>
+<header class="top">
+  <button type="button" class="btn" id="menubtn" aria-label="Ouvrir le menu" style="display:none">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  </button>
+  <div class="brand">
+    <h1><span class="full">Med<span>Board</span> · Acteurs du projet</span><span class="short">Med<span>Board</span> · Acteurs</span></h1>
+    <p>34 acteurs reliés aux 10 actions du projet. Cliquez sur un point pour ouvrir sa fiche.</p>
+  </div>
+  <div class="seg" role="group" aria-label="Vue">
+    <button type="button" id="v3d" aria-pressed="true">Constellation 3D</button>
+    <button type="button" id="vmx" aria-pressed="false">Matrice</button>
+  </div>
+  <button type="button" class="btn" id="mailbtn">Mailing list <span class="count" id="mailn">0</span></button>
+</header>
+<style>
+.top .brand h1 .short{display:none}
+@media (max-width:900px){
+  #menubtn{display:flex!important;align-items:center;justify-content:center;padding:7px 10px}
+  .spin-full,.reset-full{display:none!important}
+  .spin-mob,.reset-mob{display:inline!important;font-size:16px;line-height:1}
+  .top .brand h1 .full{display:none}
+  .top .brand h1 .short{display:inline;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  .seg button{padding:7px 10px;font-size:12px;font-weight:600}
+  .seg button#v3d::before{content:"⚛";margin-right:4px}
+  .seg button#vmx::before{content:"▦";margin-right:4px}
+  #mailbtn{padding:7px 10px;font-weight:600}
+  #mailbtn::before{content:"✉";margin-right:4px}
+  #mailbtn span:first-child,
+  #mailbtn{color:var(--ink)}
+}
+@media (max-width:520px){
+  .top .brand{display:none}
+  .seg button#v3d,.seg button#vmx{font-size:0;width:38px;padding:7px 0}
+  .seg button#v3d::before,.seg button#vmx::before{margin:0;font-size:16px}
+  #mailbtn{font-size:0;padding:7px 10px}
+  #mailbtn::before{font-size:14px;margin:0}
+  #mailbtn .count{font-size:11px;margin-left:4px}
+}</style>
+
+<div class="app">
+  <aside class="rail" id="rail" aria-label="Filtres et annuaire">
+    <div class="group">
+      <label class="lbl" for="q">Rechercher</label>
+      <input id="q" type="search" placeholder="Nom, rôle, action…" autocomplete="off">
+    </div>
+    <div class="group">
+      <span class="lbl">Type d'acteur</span>
+      <div class="chips" id="fcat"></div>
+    </div>
+    <div class="group">
+      <span class="lbl">Territoire</span>
+      <div class="chips" id="fterr"></div>
+    </div>
+    <div class="group">
+      <span class="lbl">Annuaire <span class="count" id="listn"></span></span>
+      <div class="list" id="list"></div>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <canvas id="cv" role="img" aria-label="Constellation 3D des acteurs reliés aux actions. L'annuaire à gauche et la vue Matrice donnent le même contenu au clavier."></canvas>
+    <div class="legend" id="legend">
+      <div><span class="shape paca"></span>Côte d'Azur / PACA</div>
+      <div><span class="shape corse"></span>Corse</div>
+      <div><span class="shape"></span>National</div>
+    </div>
+    <div class="hud" id="hud">
+      <button type="button" class="btn" id="spin" aria-pressed="true" title="Rotation automatique"><span class="spin-full">Rotation auto</span><span class="spin-mob" style="display:none">⟳</span></button>
+      <button type="button" class="btn" id="zin" aria-label="Zoomer">+</button>
+      <button type="button" class="btn" id="zout" aria-label="Dézoomer">−</button>
+      <button type="button" class="btn" id="reset" aria-label="Recentrer"><span class="reset-full">Recentrer</span><span class="reset-mob" style="display:none">⌖</span></button>
+    </div>
+    <div class="hint" id="hint">Glisser pour tourner · molette pour zoomer</div>
+    <div id="tip" hidden></div>
+    <div class="matrix" id="matrix" hidden></div>
+    <button type="button" id="openpanel" aria-label="Ouvrir la fiche">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      Détails
+    </button>
+  </main>
+
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+</div>
+<div class="backdrop" id="backdrop"></div>
+
+<script>
+(function(){
+"use strict";
+const ACTIONS=[
+ ["A1","Attractivité des métiers & structuration opérationnelle","M1–M48"],
+ ["A2","Rayonnement de l'Innovation","M1–M48"],
+ ["A3","Automatisation de la gestion des données","M1–M48"],
+ ["A4","Catalogue commun de formations à l'Innovation","M2–M48"],
+ ["A5","Service commun d'analyse des publications scientifiques","M1–M46"],
+ ["A6","Intégration et transformation des Fablabs — SILEX","M1–M48"],
+ ["A7","Soutien ciblé aux projets de recherche et d'Innovation","M1–M48"],
+ ["A8","Complémentarité des expertises","M1–M48"],
+ ["A9","Bourses des incubés et entrepreneurs en résidence","M1–M48"],
+ ["A10","Développement expérimental (optionnel)","M1–M48"]
+].map(function(a,i){return {i:i,id:a[0],name:a[1],per:a[2]};});
+const CATS={
+ fond:{label:"Fondateurs",pill:"Fondateurs",one:"Fondateur",y:-195,r:285},
+ coll:{label:"Collectivités",pill:"Collectivités",one:"Collectivité",y:-90,r:345},
+ acad:{label:"Partenaires académiques & santé",pill:"Partenaires",one:"Partenaire académique / santé",y:100,r:345},
+ pole:{label:"Pôles & associations",pill:"Pôles & assos",one:"Pôle / association",y:205,r:285}
+};
+const TERR={paca:"Côte d'Azur / PACA",corse:"Corse",nat:"National"};
+const ACTORS=[
+ ["Université Côte d'Azur","fond","paca","Chef de file",[1,2,3,5,7]],
+ ["Università di Corsica Pasquale Paoli","fond","corse","Fondateur",[1,4,6],"Università di Corsica"],
+ ["INRIA","fond","paca","Fondateur",[7,9]],
+ ["CNRS","fond","paca","Fondateur",[5]],
+ ["INSERM","fond","paca","Fondateur",[7]],
+ ["INRAE","fond","paca","Fondateur",[7]],
+ ["IRD","fond","nat","Fondateur",[7]],
+ ["Observatoire Côte d'Azur","fond","paca","Fondateur",[2]],
+ ["SATT Sud-Est","fond","paca","Fondateur",[10]],
+ ["Incubateur Provence Côte d'Azur (IPCA)","fond","paca","Incubateur fondateur",[8,9],"IPCA"],
+ ["Inizià","fond","corse","Incubateur fondateur",[8,9]],
+ ["INSERM Transfert","fond","nat","Fondateur",[7,10]],
+ ["Collectivité de Corse","coll","corse","Partenaire institutionnel",[2,6]],
+ ["Région Provence-Alpes-Côte d'Azur","coll","paca","Partenaire institutionnel",[2,10],"Région PACA"],
+ ["Métropole Nice Côte d'Azur","coll","paca","Partenaire institutionnel",[2],"Métropole NCA"],
+ ["Département des Alpes-Maritimes","coll","paca","Partenaire institutionnel",[2],"Dép. Alpes-Maritimes"],
+ ["CA du Pays de Grasse","coll","paca","Partenaire institutionnel",[2]],
+ ["CA de Sophia Antipolis","coll","paca","Partenaire institutionnel",[2]],
+ ["CHU de Nice","acad","paca","Partenaire hospitalier",[7]],
+ ["Centre Antoine Lacassagne","acad","paca","Partenaire santé",[7]],
+ ["Sorbonne Université","acad","nat","Partenaire académique",[7]],
+ ["Université de Toulon","acad","paca","Partenaire académique",[4,7]],
+ ["Université Gustave Eiffel","acad","nat","Partenaire académique",[7],"Univ. Gustave Eiffel"],
+ ["Université PSL","acad","nat","Partenaire académique",[7]],
+ ["Eurecom","acad","paca","Partenaire académique",[7]],
+ ["EDHEC Business School","acad","paca","Partenaire académique",[4],"EDHEC"],
+ ["SKEMA Business School","acad","paca","Partenaire académique",[4],"SKEMA"],
+ ["Eurobiomed","pole","paca","Pôle de compétitivité",[2,8]],
+ ["Cosmetic Valley","pole","nat","Pôle de compétitivité",[2]],
+ ["Capenergies","pole","paca","Pôle de compétitivité",[2]],
+ ["Pôle Optitec","pole","paca","Pôle de compétitivité",[2]],
+ ["Cancéropôle PACA","pole","paca","Pôle de compétitivité",[2,7]],
+ ["Telecom Valley","pole","paca","Association professionnelle",[2]],
+ ["Rising Sud","pole","paca","Association entreprises",[2,8]]
+].map(function(a,i){return {i:i,name:a[0],cat:a[1],terr:a[2],role:a[3],acts:a[4].map(function(n){return n-1;}),short:a[5]||a[0]};});
+
+/* ---------- état ---------- */
+const hot=window.claude&&window.claude.hot;
+const saved=(hot&&hot.data)||{};
+const S={view:saved.view||"3d",sel:saved.sel||null,hover:null,cats:new Set(),terrs:new Set(),q:"",mode:"fiche",
+         yaw:-0.6,pitch:-0.3,zoom:window.innerWidth<=900?0.86:1,spin:true,yawTo:null};
+if(hot&&hot.snapshot)hot.snapshot(function(){return {view:S.view,sel:S.sel};});
+const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(reduce)S.spin=false;
+
+/* contacts et mailing : conservés dans ce navigateur uniquement */
+const KEY="medboard-acteurs-crm";
+let store={contacts:{},mailing:[]};
+try{const raw=localStorage.getItem(KEY);if(raw){const p=JSON.parse(raw);if(p&&p.contacts)store=p;if(!Array.isArray(store.mailing))store.mailing=[];}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+const $=function(id){return document.getElementById(id);};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function actorsOf(ai){return ACTORS.filter(function(a){return a.acts.indexOf(ai)>=0;});}
+function matches(a){
+  if(S.cats.size&&!S.cats.has(a.cat))return false;
+  if(S.terrs.size&&!S.terrs.has(a.terr))return false;
+  if(S.q){
+    const hay=norm(a.name+" "+a.role+" "+CATS[a.cat].label+" "+TERR[a.terr]+" "+a.acts.map(function(i){return ACTIONS[i].id+" "+ACTIONS[i].name;}).join(" "));
+    if(hay.indexOf(norm(S.q))<0)return false;
+  }
+  return true;
+}
+
+/* ---------- disposition 3D ---------- */
+const TAU=Math.PI*2;
+function actAngle(i){return i/ACTIONS.length*TAU-Math.PI/2;}
+function wrap(d){while(d>Math.PI)d-=TAU;while(d<-Math.PI)d+=TAU;return d;}
+const nodes=[];
+ACTIONS.forEach(function(a){const t=actAngle(a.i);nodes.push({kind:"action",ref:a,x:Math.cos(t)*125,y:0,z:Math.sin(t)*125,ang:t});});
+Object.keys(CATS).forEach(function(ck){
+  const grp=ACTORS.filter(function(a){return a.cat===ck;});
+  const tgt=grp.map(function(a){
+    let x=0,z=0;a.acts.forEach(function(i){x+=Math.cos(actAngle(i));z+=Math.sin(actAngle(i));});
+    return (Math.abs(x)+Math.abs(z)<0.2)?actAngle(a.acts[0]):Math.atan2(z,x);
+  });
+  const ang=tgt.map(function(t,k){return t+k*0.001;});
+  const minSep=TAU/grp.length*0.74;
+  for(let it=0;it<400;it++){
+    const ord=ang.map(function(_,k){return k;}).sort(function(p,q){return wrap(ang[p]-ang[q])>0?1:-1;});
+    ord.sort(function(p,q){return ((ang[p]%TAU)+TAU)%TAU-((ang[q]%TAU)+TAU)%TAU;});
+    for(let k=0;k<ord.length;k++){
+      const p=ord[k],q=ord[(k+1)%ord.length];if(p===q)continue;
+      let gap=((ang[q]-ang[p])%TAU+TAU)%TAU;
+      if(gap<minSep){const push=(minSep-gap)/2*0.5;ang[p]-=push;ang[q]+=push;}
+    }
+    for(let k=0;k<ang.length;k++)ang[k]+=wrap(tgt[k]-ang[k])*0.015;
+  }
+  grp.forEach(function(a,k){const c=CATS[ck];nodes.push({kind:"actor",ref:a,x:Math.cos(ang[k])*c.r,y:c.y,z:Math.sin(ang[k])*c.r,ang:ang[k]});});
+});
+const actorNode={},actionNode={};
+nodes.forEach(function(n){(n.kind==="actor"?actorNode:actionNode)[n.ref.i]=n;});
+
+/* ---------- canvas ---------- */
+const cv=$("cv"),ctx=cv.getContext("2d"),stage=$("stage"),tip=$("tip");
+let W=0,H=0,DPR=1,col={};
+function readColors(){
+  const cs=getComputedStyle(document.documentElement);
+  ["ink","muted","line","accent","stage","surface","surface-solid","c-fond","c-coll","c-acad","c-pole"].forEach(function(k){col[k]=cs.getPropertyValue("--"+k).trim();});
+  if(!col.stage||col.stage==="")col.stage="#070b14";
+  if(!col["surface-solid"])col["surface-solid"]=col.surface;
+}
+readColors();
+try{const mq=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)");if(mq){if(mq.addEventListener)mq.addEventListener("change",readColors);else if(mq.addListener)mq.addListener(readColors);}}catch(e){}
+new MutationObserver(readColors).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+let DPRCAP=2;
+function resize(){
+  const r=stage.getBoundingClientRect();W=r.width;H=r.height;DPR=Math.min(window.devicePixelRatio||1,DPRCAP);
+  cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);
+}
+if(window.ResizeObserver)new ResizeObserver(resize).observe(stage);
+window.addEventListener("resize",resize);window.addEventListener("orientationchange",function(){setTimeout(resize,200);});
+resize();
+
+const F=1000;
+function project(x,y,z){
+  const cy=Math.cos(S.yaw),sy=Math.sin(S.yaw),cp=Math.cos(S.pitch),sp=Math.sin(S.pitch);
+  const x1=x*cy+z*sy,z1=-x*sy+z*cy;
+  const y2=y*cp-z1*sp,z2=y*sp+z1*cp;
+  const s=F/(F+z2),k=Math.min(W,H)/2/330*S.zoom;
+  /* écran vertical : on décale chaque étage en hauteur pour séparer les orbites sans les déformer */
+  const ratio=H/Math.max(1,W),spread=ratio>1.3?Math.min(1.1,(ratio-1)*0.9):0;
+  return {x:W/2+x1*s*k,y:H/2+18+y2*s*k+y*spread*k,s:s*k,z:z2};
+}
+function isSel(n){return S.sel&&S.sel.kind===n.kind&&S.sel.i===n.ref.i;}
+function focusNode(){
+  if(S.hover)return S.hover;
+  if(S.sel)return S.sel.kind==="actor"?actorNode[S.sel.i]:actionNode[S.sel.i];
+  return null;
+}
+function linked(a,b){
+  if(a===b)return true;
+  if(a.kind===b.kind)return false;
+  const actor=a.kind==="actor"?a:b,action=a.kind==="action"?a:b;
+  return actor.ref.acts.indexOf(action.ref.i)>=0;
+}
+/* ---- orbites : un anneau lumineux par type d'acteur ----
+   - disque translucide pour matérialiser le plan de l'orbite
+   - double trait (halo large + filet net), plus vif à l'avant qu'à l'arrière
+   - une étiquette « pilule » posée sur l'anneau, côté spectateur */
+let ringPills=[];
+function ringState(k){
+  const f=focusNode();
+  if(f&&f.kind==="actor")return f.ref.cat===k?"on":"dim";
+  if(S.cats.size)return S.cats.has(k)?"on":"dim";
+  return "idle";
+}
+/* ---- hologramme : horloge, scintillement, aberration chromatique ---- */
+let HT=0,HFL=1;
+const HOLO_A="#5ffbff",HOLO_B="#ff5fd8";   /* franges cyan / magenta */
+function holoTick(now){
+  HT=now/1000;
+  /* scintillement discret, coupé si l'utilisateur réduit les animations */
+  HFL=reduce?1:0.93+0.05*Math.sin(HT*7.3)+0.02*Math.sin(HT*23.1);
+}
+/* projecteur : socle lumineux + faisceau qui monte sous la constellation */
+function drawProjector(){
+  const baseY=CATS.pole.y+55,topY=CATS.fond.y-20,R=140,N=72;
+  const base=[];for(let i=0;i<=N;i++){const t=i/N*TAU;base.push(project(Math.cos(t)*R,baseY,Math.sin(t)*R));}
+  const top=[];for(let i=0;i<=N;i++){const t=i/N*TAU;top.push(project(Math.cos(t)*R*2.3,topY,Math.sin(t)*R*2.3));}
+  let bl=base[0],br=base[0],tl=top[0],tr=top[0],bc={x:0,y:0};
+  base.forEach(function(p){if(p.x<bl.x)bl=p;if(p.x>br.x)br=p;bc.x+=p.x/base.length;bc.y+=p.y/base.length;});
+  top.forEach(function(p){if(p.x<tl.x)tl=p;if(p.x>tr.x)tr=p;});
+  ctx.save();
+  ctx.globalCompositeOperation="lighter";
+  /* faisceau */
+  const g=ctx.createLinearGradient(0,bc.y,0,Math.min(tl.y,tr.y));
+  g.addColorStop(0,"rgba(95,251,255,0.16)");g.addColorStop(0.55,"rgba(95,251,255,0.05)");g.addColorStop(1,"rgba(95,251,255,0)");
+  ctx.fillStyle=g;ctx.globalAlpha=HFL;
+  ctx.beginPath();ctx.moveTo(bl.x,bl.y);ctx.lineTo(tl.x,tl.y);ctx.lineTo(tr.x,tr.y);ctx.lineTo(br.x,br.y);ctx.closePath();ctx.fill();
+  /* socle : disque + anneaux concentriques */
+  [1,0.72,0.45].forEach(function(f,idx){
+    ctx.beginPath();
+    for(let i=0;i<=N;i++){const t=i/N*TAU,p=project(Math.cos(t)*R*f,baseY,Math.sin(t)*R*f);i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);}
+    ctx.closePath();
+    if(idx===0){ctx.fillStyle="rgba(95,251,255,0.06)";ctx.fill();}
+    ctx.strokeStyle=HOLO_A;ctx.lineWidth=idx===0?1.6:1;ctx.globalAlpha=(idx===0?0.55:0.3)*HFL;
+    ctx.shadowBlur=(idx===0&&Q)?16:0;ctx.shadowColor=HOLO_A;ctx.stroke();
+  });
+  ctx.restore();
+}
+function ring(y,r,color,k){
+  const N=96,pts=[];
+  for(let i=0;i<=N;i++){const t=i/N*TAU;pts.push(project(Math.cos(t)*r,y,Math.sin(t)*r));}
+  const st=k?ringState(k):"idle";
+  const boost=(st==="on"?1.6:st==="dim"?0.35:1)*HFL;
+  ctx.save();
+  ctx.globalCompositeOperation="lighter";
+  /* plan de l'orbite : voile translucide */
+  ctx.beginPath();pts.forEach(function(p,i){i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y);});ctx.closePath();
+  ctx.fillStyle=color;ctx.globalAlpha=(k?0.05:0.035)*boost;ctx.fill();
+  /* trait regroupé en 5 tranches de profondeur : une poignée d'appels de dessin au lieu de centaines */
+  const B=5,buck=[];for(let b=0;b<B;b++)buck.push([]);
+  for(let i=0;i<N;i++){
+    const z=(pts[i].z+pts[i+1].z)/2;
+    const front=Math.max(0,Math.min(1,0.5-z/(2*r)));   /* 1 devant, 0 derrière */
+    buck[Math.min(B-1,Math.floor(front*B))].push(i);
+  }
+  function segs(list,ox,w,a,c){
+    if(!list.length||a<=0.004)return;
+    ctx.globalAlpha=Math.min(1,a);ctx.strokeStyle=c;ctx.lineWidth=w;
+    ctx.beginPath();
+    list.forEach(function(i){ctx.moveTo(pts[i].x+ox,pts[i].y);ctx.lineTo(pts[i+1].x+ox,pts[i+1].y);});
+    ctx.stroke();
+  }
+  ctx.lineCap="round";ctx.shadowBlur=0;
+  for(let b=0;b<B;b++){
+    const front=(b+0.5)/B,al=(0.1+0.55*front)*boost;
+    if(b===B-1)segs(buck[b],0,k?14:10,al*0.08,color);          /* lueur large à l'avant */
+    segs(buck[b],0,k?6:4,al*0.35,color);                        /* halo */
+    if(Q&&front>0.5){segs(buck[b],-1.4,1,al*0.35,HOLO_A);segs(buck[b],1.4,1,al*0.35,HOLO_B);}  /* franges */
+    segs(buck[b],0,k?1.3:1,al,color);                           /* filet net */
+  }
+  /* balayage : un éclat lumineux qui parcourt l'anneau */
+  const sweep=Math.floor(((HT*0.18+(k?{fond:0,coll:.25,acad:.5,pole:.75}[k]:0.1))%1)*N);
+  ctx.beginPath();
+  for(let d=-6;d<=6;d++){const p=pts[(sweep+d+N)%N];d===-6?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);}
+  ctx.globalAlpha=Math.min(1,0.75*boost);ctx.strokeStyle="#ffffff";ctx.lineWidth=k?2:1.5;
+  if(Q){ctx.shadowBlur=12;ctx.shadowColor=color;}
+  ctx.stroke();
+  ctx.restore();
+  /* point le plus proche du spectateur : on y pose la pilule */
+  if(k){
+    let best=pts[0];pts.forEach(function(p){if(p.z<best.z)best=p;});
+    ringPills.push({k:k,x:best.x,y:best.y,color:color,st:st});
+  }
+}
+function drawRingPills(placed){
+  ringPills.forEach(function(P){
+    const C=CATS[P.k],n=ACTORS.filter(function(a){return a.cat===P.k;}).length;
+    const txt=(window.innerWidth<=900?C.pill:C.label).toUpperCase();
+    ctx.save();
+    ctx.font="700 10px Outfit, system-ui, sans-serif";
+    const tw=ctx.measureText(txt).width;
+    ctx.font="700 10px 'JetBrains Mono', monospace";
+    const nw=ctx.measureText(String(n)).width;
+    const w=tw+nw+30,h=20,m=8;
+    let x=Math.max(m,Math.min(W-m-w,P.x-w/2)),y=Math.max(m,Math.min(H-m-h,P.y+8));
+    placed.push({x0:x,x1:x+w,y0:y,y1:y+h});
+    ctx.globalAlpha=P.st==="dim"?0.35:1;
+    /* fond verre sombre + liseré coloré */
+    ctx.fillStyle="rgba(7,11,20,0.82)";roundRectPath(x,y,w,h,10);ctx.fill();
+    ctx.strokeStyle=P.color;ctx.lineWidth=P.st==="on"?1.6:1;ctx.shadowBlur=Q?(P.st==="on"?14:8):0;ctx.shadowColor=P.color;
+    roundRectPath(x,y,w,h,10);ctx.stroke();ctx.shadowBlur=0;
+    /* pastille + texte + effectif */
+    ctx.fillStyle=P.color;ctx.beginPath();ctx.arc(x+10,y+h/2,3.5,0,TAU);ctx.fill();
+    ctx.font="700 10px Outfit, system-ui, sans-serif";ctx.textAlign="left";ctx.textBaseline="middle";
+    ctx.fillStyle=P.color;ctx.fillText(txt,x+19,y+h/2+0.5);
+    ctx.font="700 10px 'JetBrains Mono', monospace";ctx.fillStyle="rgba(234,242,255,0.75)";
+    ctx.fillText(String(n),x+19+tw+6,y+h/2+0.5);
+    ctx.restore();
+  });
+}
+function roundRectPath(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  const f=focusNode();
+  holoTick(performance.now());
+  ringPills=[];
+  drawProjector();
+  ring(0,125,col.accent,null);
+  Object.keys(CATS).forEach(function(k){ring(CATS[k].y,CATS[k].r,col["c-"+k],k);});
+  nodes.forEach(function(n){n.p=project(n.x,n.y,n.z);n.ok=n.kind==="action"||matches(n.ref);});
+  /* liens : lumière additive + impulsion qui circule vers l'action */
+  ctx.save();
+  ctx.globalCompositeOperation="lighter";
+  nodes.forEach(function(n){
+    if(n.kind!=="actor")return;
+    const c=col["c-"+n.ref.cat];
+    n.ref.acts.forEach(function(ai,j){
+      const m=actionNode[ai],lit=f&&(f===n||f===m);
+      let alpha=(n.ok?(f?(lit?0.9:0.035):0.22):0.025)*HFL;
+      if(alpha<0.02)return;
+      ctx.strokeStyle=c;ctx.shadowBlur=0;
+      if(lit){ctx.globalAlpha=alpha*0.25;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(n.p.x,n.p.y);ctx.lineTo(m.p.x,m.p.y);ctx.stroke();}
+      ctx.globalAlpha=alpha;ctx.lineWidth=lit?1.8:0.9;
+      ctx.beginPath();ctx.moveTo(n.p.x,n.p.y);ctx.lineTo(m.p.x,m.p.y);ctx.stroke();
+      /* impulsion */
+      if(!reduce&&(lit||(!f&&(Q||j===0)))){
+        const t=((HT*0.35+n.ref.i*0.137+j*0.31)%1);
+        const px=n.p.x+(m.p.x-n.p.x)*t,py=n.p.y+(m.p.y-n.p.y)*t,pr=lit?2.2:1.4;
+        const a=(lit?0.95:0.45)*Math.sin(t*Math.PI)*HFL;
+        ctx.globalAlpha=a*0.3;ctx.fillStyle=c;ctx.beginPath();ctx.arc(px,py,pr*3,0,TAU);ctx.fill();
+        ctx.globalAlpha=a;ctx.fillStyle="#ffffff";ctx.beginPath();ctx.arc(px,py,pr,0,TAU);ctx.fill();
+      }
+    });
+  });
+  ctx.restore();
+  ctx.globalAlpha=1;
+  /* nœuds, du plus loin au plus proche */
+  const labels=[];
+  nodes.slice().sort(function(a,b){return b.p.z-a.p.z;}).forEach(function(n){
+    const p=n.p,lit=!f||linked(f,n),depth=Math.max(0.35,Math.min(1,(p.s/(Math.min(W,H)/800*S.zoom)-0.7)/0.6+0.35));
+    let alpha=(n.ok?1:0.14)*(lit?1:0.18)*(f&&lit?1:depth);
+    alpha*=HFL;
+    if(n.kind==="action"){
+      const rr=Math.max(13,17*p.s*1.2),on=isSel(n)||f===n;
+      ctx.save();
+      ctx.globalAlpha=alpha;
+      /* disque de verre holographique : cœur transparent, bord lumineux */
+      const g=ctx.createRadialGradient(p.x,p.y,rr*0.2,p.x,p.y,rr);
+      g.addColorStop(0,"rgba(95,251,255,0.05)");g.addColorStop(0.75,"rgba(95,251,255,0.16)");g.addColorStop(1,"rgba(95,251,255,0.42)");
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,rr,0,TAU);ctx.fill();
+      ctx.globalCompositeOperation="lighter";
+      if(Q){
+        ctx.lineWidth=1;ctx.strokeStyle=HOLO_A;ctx.globalAlpha=alpha*0.4;
+        ctx.beginPath();ctx.arc(p.x-1.2,p.y,rr,0,TAU);ctx.stroke();
+        ctx.strokeStyle=HOLO_B;ctx.beginPath();ctx.arc(p.x+1.2,p.y,rr,0,TAU);ctx.stroke();
+      }
+      ctx.globalAlpha=alpha*0.22;ctx.lineWidth=5;ctx.strokeStyle=HOLO_A;
+      ctx.beginPath();ctx.arc(p.x,p.y,rr,0,TAU);ctx.stroke();
+      ctx.globalAlpha=alpha;ctx.lineWidth=on?2.2:1.3;ctx.strokeStyle="#dffcff";
+      ctx.shadowBlur=(on&&Q)?24:0;ctx.shadowColor=HOLO_A;
+      ctx.beginPath();ctx.arc(p.x,p.y,rr,0,TAU);ctx.stroke();
+      /* reflet */
+      ctx.shadowBlur=0;ctx.globalAlpha=alpha*0.5;ctx.strokeStyle="#ffffff";ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.arc(p.x,p.y,rr*0.72,Math.PI*1.1,Math.PI*1.45);ctx.stroke();
+      ctx.restore();
+      ctx.save();ctx.globalAlpha=alpha;
+      ctx.font="700 "+Math.max(10,Math.round(rr*0.62))+"px 'JetBrains Mono', monospace";ctx.textAlign="center";ctx.textBaseline="middle";
+      ctx.shadowBlur=(on&&Q)?8:0;ctx.shadowColor=HOLO_A;ctx.fillStyle="#eafeff";
+      ctx.fillText(n.ref.id,p.x,p.y+0.5);
+      ctx.restore();
+      if(f===n)labels.push({t:n.ref.name,x:p.x,y:p.y+rr+14,align:"center",size:12.5,bold:true,glow:col.accent,alpha:1});
+    }else{
+      const c=col["c-"+n.ref.cat],rr=Math.max(5.5,(5+n.ref.acts.length*1.3)*p.s*1.25),on=isSel(n)||f===n;
+      function shape(ox){
+        const x=p.x+(ox||0);ctx.beginPath();
+        if(n.ref.terr==="paca")ctx.arc(x,p.y,rr,0,TAU);
+        else if(n.ref.terr==="corse"){const d=rr*1.25;ctx.moveTo(x,p.y-d);ctx.lineTo(x+d,p.y);ctx.lineTo(x,p.y+d);ctx.lineTo(x-d,p.y);ctx.closePath();}
+        else ctx.rect(x-rr*0.9,p.y-rr*0.9,rr*1.8,rr*1.8);
+      }
+      ctx.save();
+      ctx.globalAlpha=alpha;
+      ctx.globalCompositeOperation="lighter";
+      /* halo de sélection */
+      if(on){
+        const hg=ctx.createRadialGradient(p.x,p.y,rr,p.x,p.y,rr*3);
+        hg.addColorStop(0,c);hg.addColorStop(1,"rgba(0,0,0,0)");
+        ctx.globalAlpha=alpha*0.35;ctx.fillStyle=hg;ctx.beginPath();ctx.arc(p.x,p.y,rr*3,0,TAU);ctx.fill();
+        ctx.globalAlpha=alpha;
+      }
+      /* bulle de verre : intérieur presque transparent, bord dense */
+      const g=ctx.createRadialGradient(p.x,p.y,rr*0.1,p.x,p.y,rr*1.15);
+      g.addColorStop(0,"rgba(255,255,255,0.10)");g.addColorStop(0.55,c+"33");g.addColorStop(1,c+"b0");
+      ctx.fillStyle=g;shape();ctx.fill();
+      /* franges chromatiques */
+      if(Q){
+        ctx.lineWidth=1;ctx.globalAlpha=alpha*0.45;
+        ctx.strokeStyle=HOLO_A;shape(-1.2);ctx.stroke();
+        ctx.strokeStyle=HOLO_B;shape(1.2);ctx.stroke();
+      }
+      /* contour lumineux */
+      if(lit){ctx.globalAlpha=alpha*0.2;ctx.strokeStyle=c;ctx.lineWidth=4;shape();ctx.stroke();}
+      ctx.globalAlpha=alpha;ctx.strokeStyle=on?"#ffffff":c;ctx.lineWidth=on?2:1.2;
+      ctx.shadowBlur=(on&&Q)?22:0;ctx.shadowColor=c;shape();ctx.stroke();
+      /* point de lumière spéculaire */
+      ctx.shadowBlur=0;ctx.globalAlpha=alpha*0.85;ctx.fillStyle="#ffffff";
+      ctx.beginPath();ctx.arc(p.x-rr*0.35,p.y-rr*0.38,Math.max(1,rr*0.18),0,TAU);ctx.fill();
+      ctx.restore();
+      const strong=f&&lit;
+      /* quelles catégories montrent leurs labels en permanence ?
+         - si une seule catégorie est filtrée : celle-là
+         - sinon : fondateurs (les 12 fondateurs sont toujours lisibles) */
+      const onlyCat=S.cats.size===1?[...S.cats][0]:null;
+      const alwaysLabel=onlyCat?n.ref.cat===onlyCat:n.ref.cat==="fond";
+      /* label avec placement radial à l'extérieur, contraint au cadre */
+      if(n.ok&&(strong||(!f&&alwaysLabel))){
+        const dxc=p.x-W/2,dyc=p.y-H/2,dist=Math.max(1,Math.hypot(dxc,dyc));
+        const dir={x:dxc/dist,y:dyc/dist};
+        const off=rr+9;
+        let lx=p.x+dir.x*off,ly=p.y+dir.y*off;
+        let align="center";
+        if(dir.x>0.25)align="left";else if(dir.x<-0.25)align="right";
+        const sz=strong?12.5:Math.max(10.5,Math.min(12,11.2*p.s*1.2));
+        /* clamp aux bords : on calcule la largeur estimée et on replie si besoin */
+        const txt=strong?n.ref.name:n.ref.short;
+        const est=txt.length*sz*0.55,margin=8;
+        if(align==="left"&&lx+est>W-margin){align="right";lx=p.x-off;}
+        else if(align==="right"&&lx-est<margin){align="left";lx=p.x+off;}
+        else if(align==="center"){
+          if(lx-est/2<margin)lx=margin+est/2;
+          else if(lx+est/2>W-margin)lx=W-margin-est/2;
+        }
+        ly=Math.max(margin+sz/2,Math.min(H-margin-sz/2,ly));
+        labels.push({t:txt,x:lx,y:ly,align:align,size:sz,bold:strong||isSel(n),glow:c,alpha:alpha});
+      }
+    }
+  });
+  /* anti-chevauchement : on décale verticalement les étiquettes qui se recouvrent */
+  const placed=[];
+  drawRingPills(placed);
+  labels.forEach(function(L){
+    ctx.font=(L.bold?"600 ":"500 ")+L.size+"px Outfit, system-ui, sans-serif";
+    const w=ctx.measureText(L.t).width,h=L.size+4;
+    function box(){const x0=L.align==="left"?L.x:L.align==="right"?L.x-w:L.x-w/2;return {x0:x0,x1:x0+w,y0:L.y-h/2,y1:L.y+h/2};}
+    const step=L.y<H/2?-1:1;
+    for(let k=0;k<6;k++){
+      const b=box();
+      const hit=placed.some(function(q){return b.x0<q.x1&&b.x1>q.x0&&b.y0<q.y1&&b.y1>q.y0;});
+      if(!hit)break;
+      L.y+=step*h*0.9;
+    }
+    placed.push(box());
+  });
+  /* labels dessinés par-dessus, avec halo sombre pour lisibilité */
+  labels.forEach(function(L){
+    ctx.save();
+    ctx.globalAlpha=L.alpha;
+    ctx.font=(L.bold?"600 ":"500 ")+L.size+"px Outfit, system-ui, sans-serif";
+    ctx.textAlign=L.align;ctx.textBaseline="middle";
+    /* halo sombre pour contraste */
+    ctx.lineWidth=4;ctx.lineJoin="round";ctx.strokeStyle=col.stage||"#070b14";
+    ctx.strokeText(L.t,L.x,L.y);
+    ctx.shadowBlur=0;
+    /* franges cyan / magenta, puis texte clair : effet hologramme lisible */
+    ctx.globalCompositeOperation="lighter";
+    ctx.globalAlpha=L.alpha*0.45*HFL;
+    ctx.fillStyle=HOLO_A;ctx.fillText(L.t,L.x-0.9,L.y);
+    ctx.fillStyle=HOLO_B;ctx.fillText(L.t,L.x+0.9,L.y);
+    ctx.globalCompositeOperation="source-over";
+    ctx.globalAlpha=L.alpha*HFL;
+    ctx.fillStyle="#f2f8ff";ctx.fillText(L.t,L.x,L.y);
+    ctx.restore();
+  });
+  ctx.globalAlpha=1;
+}
+function label(t,x,y,align,size,bold){
+  ctx.font=(bold?"600 ":"500 ")+size+"px Outfit, sans-serif";ctx.textAlign=align;ctx.textBaseline="middle";
+  ctx.lineWidth=4;ctx.lineJoin="round";ctx.strokeStyle=col.stage;ctx.strokeText(t,x,y);
+  ctx.fillStyle=col.ink;ctx.fillText(t,x,y);
+}
+/* Q=1 : rendu complet ; Q=0 : rendu allégé (sans halos flous ni franges) si l'appareil peine */
+let Q=1,drawMs=0,frames=0,drawErr=false;
+function frame(){
+  requestAnimationFrame(frame);   /* planifié d'abord : une erreur ne peut plus arrêter l'animation */
+  if(S.view!=="3d")return;
+  if(S.yawTo!==null){const d=wrap(S.yawTo-S.yaw);if(Math.abs(d)<0.004){S.yaw=S.yawTo;S.yawTo=null;}else S.yaw+=d*(reduce?1:0.12);}
+  else if(S.spin&&!drag&&!S.hover)S.yaw+=0.0016;
+  if(W<2||H<2)return;
+  const t0=performance.now();
+  try{draw();}catch(e){if(!drawErr){drawErr=true;if(window.__mbErr)window.__mbErr("Erreur de dessin : "+(e&&e.message||e));}}
+  const dt=performance.now()-t0;frames++;
+  drawMs=frames<3?dt:drawMs*0.9+dt*0.1;
+  if(Q===1&&frames>40&&drawMs>14){Q=0;DPRCAP=1.5;resize();}
+}
+
+/* ---------- interactions canvas ---------- */
+let drag=null;
+function pick(mx,my){
+  let best=null;
+  nodes.forEach(function(n){
+    if(!n.p||!n.ok)return;
+    const rr=n.kind==="action"?Math.max(11,17*n.p.s*1.15):Math.max(4,(5+n.ref.acts.length*1.3)*n.p.s*1.15);
+    const d=Math.hypot(n.p.x-mx,n.p.y-my);
+    if(d<=rr+7&&(!best||n.p.z<best.p.z))best=n;
+  });
+  return best;
+}
+function pos(e){const r=cv.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
+cv.addEventListener("pointerdown",function(e){const p=pos(e);drag={x:p.x,y:p.y,moved:0};cv.setPointerCapture(e.pointerId);cv.classList.add("grabbing");S.yawTo=null;});
+cv.addEventListener("pointermove",function(e){
+  const p=pos(e);
+  if(drag){
+    const dx=p.x-drag.x,dy=p.y-drag.y;drag.moved+=Math.abs(dx)+Math.abs(dy);
+    S.yaw+=dx*0.006;S.pitch=Math.max(-1.2,Math.min(1.2,S.pitch-dy*0.005));drag.x=p.x;drag.y=p.y;
+    if(drag.moved>6){S.hover=null;tip.hidden=true;}
+    return;
+  }
+  const n=pick(p.x,p.y);S.hover=n;cv.classList.toggle("pointing",!!n);
+  if(n){
+    tip.hidden=false;tip.style.left=Math.min(p.x,W-270)+"px";tip.style.top=Math.min(p.y,H-70)+"px";
+    tip.innerHTML=n.kind==="actor"
+      ?"<b>"+esc(n.ref.name)+"</b>"+esc(n.ref.role)+" · "+n.ref.acts.map(function(i){return ACTIONS[i].id;}).join(" ")
+      :"<b>"+n.ref.id+" · "+esc(n.ref.name)+"</b>"+actorsOf(n.ref.i).length+" acteurs · "+n.ref.per;
+  }else tip.hidden=true;
+});
+cv.addEventListener("pointerup",function(e){
+  const p=pos(e),was=drag;drag=null;cv.classList.remove("grabbing");
+  if(was&&was.moved<=6){const n=pick(p.x,p.y);select(n?{kind:n.kind,i:n.ref.i}:null,false);}
+});
+cv.addEventListener("pointerleave",function(){if(!drag){S.hover=null;tip.hidden=true;}});
+cv.addEventListener("wheel",function(e){e.preventDefault();zoomBy(e.deltaY<0?1.1:1/1.1);},{passive:false});
+function zoomBy(k){S.zoom=Math.max(0.6,Math.min(2.6,S.zoom*k));}
+
+/* ---- gestes tactiles : pinch zoom + bloquer le tip au survol ---- */
+const isTouch=matchMedia("(hover:none)").matches;
+let pinch=null;
+cv.addEventListener("touchstart",function(e){
+  if(e.touches.length===2){
+    const a=e.touches[0],b=e.touches[1];
+    pinch={d:Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY),z:S.zoom};
+    drag=null;cv.classList.remove("grabbing");tip.hidden=true;
+  }
+},{passive:true});
+cv.addEventListener("touchmove",function(e){
+  if(pinch&&e.touches.length===2){
+    const a=e.touches[0],b=e.touches[1];
+    const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);
+    S.zoom=Math.max(0.6,Math.min(2.6,pinch.z*(d/pinch.d)));
+    e.preventDefault();
+  }
+},{passive:false});
+cv.addEventListener("touchend",function(e){if(e.touches.length<2)pinch=null;});
+/* pinch natif iOS */
+let gestStart=1;
+cv.addEventListener("gesturestart",function(e){e.preventDefault();gestStart=S.zoom;});
+cv.addEventListener("gesturechange",function(e){e.preventDefault();S.zoom=Math.max(0.6,Math.min(2.6,gestStart*e.scale));});
+cv.addEventListener("gestureend",function(e){e.preventDefault();});
+$("zin").onclick=function(){zoomBy(1.2);};
+$("zout").onclick=function(){zoomBy(1/1.2);};
+$("reset").onclick=function(){S.zoom=window.innerWidth<=900?0.86:1;S.pitch=-0.3;S.yawTo=-0.6;};
+$("spin").onclick=function(){S.spin=!S.spin;this.setAttribute("aria-pressed",S.spin);};
+$("spin").setAttribute("aria-pressed",S.spin);
+
+/* ---------- sélection ---------- */
+function select(sel,turn){
+  S.sel=sel;S.mode="fiche";
+  if(sel&&turn!==false){const n=sel.kind==="actor"?actorNode[sel.i]:actionNode[sel.i];S.yawTo=n.ang+Math.PI/2;}
+  renderAll();
+  if(sel&&mobile())openSheet();
+  if(sel)try{if(navigator.vibrate)navigator.vibrate(8);}catch(e){}
+}
+function mobile(){return window.innerWidth<=900;}
+function openSheet(){$("panel").classList.add("open");$("backdrop").classList.add("on");}
+function closeSheet(){$("panel").classList.remove("open");$("backdrop").classList.remove("on");}
+function openDrawer(){$("rail").classList.add("open");$("backdrop").classList.add("on");}
+function closeDrawer(){$("rail").classList.remove("open");$("backdrop").classList.remove("on");}
+function closeAll(){closeSheet();closeDrawer();}
+
+/* ---------- filtres, annuaire ---------- */
+function renderFilters(){
+  $("fcat").innerHTML=Object.keys(CATS).map(function(k){
+    const n=ACTORS.filter(function(a){return a.cat===k;}).length;
+    return '<button type="button" class="chip" data-cat="'+k+'" aria-pressed="'+S.cats.has(k)+'"><span class="dot" style="--c:var(--c-'+k+')"></span>'+CATS[k].label+' <span class="n">'+n+'</span></button>';
+  }).join("");
+  $("fterr").innerHTML=Object.keys(TERR).map(function(k){
+    const n=ACTORS.filter(function(a){return a.terr===k;}).length;
+    return '<button type="button" class="chip" data-terr="'+k+'" aria-pressed="'+S.terrs.has(k)+'"><span class="shape '+k+'"></span>'+TERR[k]+' <span class="n">'+n+'</span></button>';
+  }).join("");
+}
+function renderList(){
+  const m=ACTORS.filter(matches);
+  $("listn").textContent=m.length+" / "+ACTORS.length;
+  $("list").innerHTML=m.length?m.map(function(a){
+    const cur=S.sel&&S.sel.kind==="actor"&&S.sel.i===a.i;
+    return '<button type="button" class="row" data-actor="'+a.i+'" aria-current="'+cur+'"><span class="dot" style="--c:var(--c-'+a.cat+')"></span><span class="nm">'+esc(a.name)+'</span><span class="meta">'+a.acts.length+' act.</span></button>';
+  }).join(""):'<p class="empty">Aucun acteur ne correspond. Retirez un filtre ou modifiez la recherche.</p>';
+}
+function renderMatrix(){
+  const selA=S.sel&&S.sel.kind==="action"?S.sel.i:-1,selP=S.sel&&S.sel.kind==="actor"?S.sel.i:-1;
+  let h='<table><thead><tr><th scope="col" class="lbl">Acteur</th>'+ACTIONS.map(function(a){
+    return '<th scope="col"><button type="button" class="colb" data-action="'+a.i+'" aria-current="'+(selA===a.i)+'" title="'+esc(a.name)+'">'+a.id+'<small>'+actorsOf(a.i).length+'</small></button></th>';
+  }).join("")+'</tr></thead><tbody>';
+  let any=false;
+  Object.keys(CATS).forEach(function(k){
+    const rows=ACTORS.filter(function(a){return a.cat===k&&matches(a);});
+    if(!rows.length)return;any=true;
+    h+='<tr class="cat"><th colspan="11" scope="colgroup">'+CATS[k].label+' · '+rows.length+'</th></tr>';
+    rows.forEach(function(a){
+      h+='<tr class="'+(selP===a.i?"on":"")+'"><th scope="row"><button type="button" class="row" data-actor="'+a.i+'"><span class="dot" style="--c:var(--c-'+a.cat+')"></span><span class="nm">'+esc(a.name)+'</span></button></th>'+
+        ACTIONS.map(function(x){return '<td class="'+(selA===x.i?"oncol":"")+'">'+(a.acts.indexOf(x.i)>=0?'<i style="--c:var(--c-'+a.cat+')" title="'+esc(a.name)+" · "+x.id+'"></i>':"")+'</td>';}).join("")+'</tr>';
+    });
+  });
+  if(!any)h+='<tr><th colspan="11"><p class="empty">Aucun acteur ne correspond. Retirez un filtre ou modifiez la recherche.</p></th></tr>';
+  $("matrix").innerHTML=h+'</tbody></table>';
+}
+
+/* ---------- fiche ---------- */
+function mailingEmails(){
+  const out=[];
+  store.mailing.forEach(function(name){(store.contacts[name]||[]).forEach(function(c){if(c.e)out.push(c.e);});});
+  return out;
+}
+function renderPanel(){
+  const P=$("panel");let h="";
+  $("mailn").textContent=store.mailing.length;
+  if(S.mode==="mailing"){
+    const mails=mailingEmails();
+    h+='<button type="button" class="back" data-back="1">← Retour</button><span class="eyebrow">Mailing list</span><h2>'+store.mailing.length+' acteur'+(store.mailing.length>1?"s":"")+' sélectionné'+(store.mailing.length>1?"s":"")+'</h2>';
+    if(!store.mailing.length)h+='<p class="sub">Ouvrez la fiche d\'un acteur et cochez « Inclure dans la mailing list ».</p>';
+    else{
+      h+='<div class="list">'+store.mailing.map(function(name){
+        const a=ACTORS.filter(function(x){return x.name===name;})[0];if(!a)return "";
+        const n=(store.contacts[name]||[]).filter(function(c){return c.e;}).length;
+        return '<button type="button" class="row" data-actor="'+a.i+'"><span class="dot" style="--c:var(--c-'+a.cat+')"></span><span class="nm">'+esc(a.name)+'</span><span class="meta">'+n+' e-mail'+(n>1?"s":"")+'</span></button>';
+      }).join("")+'</div>';
+      h+='<div class="group"><label class="lbl" for="mails">Adresses ('+mails.length+')</label><textarea class="mails" id="mails" readonly>'+esc(mails.join("; "))+'</textarea>'+
+         '<button type="button" class="btn primary" id="copy"'+(mails.length?"":" disabled")+'>Copier les adresses</button>'+
+         (mails.length?"":'<p class="sub">Aucun contact avec e-mail pour ces acteurs. Ajoutez des contacts dans leurs fiches.</p>')+'</div>';
+    }
+  }else if(S.sel&&S.sel.kind==="actor"){
+    const a=ACTORS[S.sel.i],cs=store.contacts[a.name]||[];
+    const peers={};a.acts.forEach(function(ai){actorsOf(ai).forEach(function(b){if(b!==a)peers[b.i]=(peers[b.i]||0)+1;});});
+    const top=Object.keys(peers).map(Number).sort(function(x,y){return peers[y]-peers[x]||x-y;}).slice(0,6);
+    h+='<span class="eyebrow" style="--c:var(--c-'+a.cat+')"><span class="dot"></span>'+CATS[a.cat].one+'</span><h2>'+esc(a.name)+'</h2>'+
+       '<p class="sub">'+esc(a.role)+' · '+TERR[a.terr]+'</p>';
+    h+='<div class="group"><span class="lbl">Actions ('+a.acts.length+')</span>'+a.acts.map(function(i){const x=ACTIONS[i];
+       return '<button type="button" class="act" data-action="'+i+'"><code>'+x.id+'</code><span>'+esc(x.name)+'</span><small>'+x.per+'</small></button>';}).join("")+'</div>';
+    h+='<div class="group"><span class="lbl">Contacts ('+cs.length+')</span>'+
+       (cs.length?cs.map(function(c,k){return '<div class="contact"><div><b>'+esc(c.n)+'</b>'+(c.f?'<span>'+esc(c.f)+'</span>':"")+(c.e?'<span>'+esc(c.e)+'</span>':"")+(c.t?'<span>'+esc(c.t)+'</span>':"")+'</div><button type="button" class="x" data-del="'+k+'" aria-label="Supprimer '+esc(c.n)+'">✕</button></div>';}).join(""):'<p class="sub">Aucun contact renseigné.</p>')+
+       '<form id="cform"><input id="c-n" placeholder="Nom *" required aria-label="Nom"><input id="c-f" placeholder="Fonction" aria-label="Fonction"><input id="c-e" type="email" placeholder="E-mail" aria-label="E-mail"><input id="c-t" placeholder="Téléphone" aria-label="Téléphone"><button class="btn primary" type="submit">Ajouter le contact</button></form></div>';
+    h+='<label class="check"><input type="checkbox" id="inmail"'+(store.mailing.indexOf(a.name)>=0?" checked":"")+'>Inclure dans la mailing list</label>';
+    if(top.length)h+='<div class="group"><span class="lbl">Travaille sur les mêmes actions</span><div class="list">'+top.map(function(i){const b=ACTORS[i];
+       return '<button type="button" class="row" data-actor="'+i+'"><span class="dot" style="--c:var(--c-'+b.cat+')"></span><span class="nm">'+esc(b.name)+'</span><span class="meta">'+peers[i]+' en commun</span></button>';}).join("")+'</div></div>';
+  }else if(S.sel&&S.sel.kind==="action"){
+    const x=ACTIONS[S.sel.i],as=actorsOf(x.i);
+    h+='<span class="eyebrow">Action · '+x.per+'</span><h2>'+x.id+' · '+esc(x.name)+'</h2><p class="sub">'+as.length+' acteur'+(as.length>1?"s":"")+' mobilisé'+(as.length>1?"s":"")+'</p>';
+    Object.keys(CATS).forEach(function(k){
+      const g=as.filter(function(a){return a.cat===k;});if(!g.length)return;
+      h+='<div class="group"><span class="lbl">'+CATS[k].label+' ('+g.length+')</span><div class="list">'+g.map(function(a){
+        return '<button type="button" class="row" data-actor="'+a.i+'"><span class="dot" style="--c:var(--c-'+a.cat+')"></span><span class="nm">'+esc(a.name)+'</span><span class="meta">'+esc(TERR[a.terr]==="National"?"Nat.":a.terr==="corse"?"Corse":"PACA")+'</span></button>';}).join("")+'</div></div>';
+    });
+  }else{
+    const max=Math.max.apply(null,ACTIONS.map(function(x){return actorsOf(x.i).length;}));
+    const nc=Object.keys(store.contacts).reduce(function(s,k){return s+store.contacts[k].length;},0);
+    h+='<span class="eyebrow">Vue d\'ensemble</span><h2>Qui travaille sur quoi</h2>'+
+       '<div class="stats"><div class="stat"><b>'+ACTORS.length+'</b><span>acteurs</span></div><div class="stat"><b>'+ACTIONS.length+'</b><span>actions</span></div><div class="stat"><b>'+nc+'</b><span>contact'+(nc>1?"s":"")+'</span></div></div>'+
+       '<div class="group"><span class="lbl">Acteurs mobilisés par action</span>'+ACTIONS.map(function(x){const n=actorsOf(x.i).length;
+         return '<button type="button" class="bar" data-action="'+x.i+'" title="'+esc(x.name)+'"><code>'+x.id+'</code><span class="track"><span class="fill" style="width:'+(n/max*100)+'%"></span></span><span class="v">'+n+'</span></button>';}).join("")+'</div>'+
+       '<p class="sub">Chaque étage de la constellation regroupe un type d\'acteur. Au centre, les 10 actions. Un trait relie un acteur à chaque action qu\'il porte. La taille du point suit le nombre d\'actions.</p>';
+  }
+  h+='<p class="note">Prototype autonome. Les contacts et la mailing list saisis ici restent dans ce navigateur et ne sont pas enregistrés dans MedBoard.</p>';
+  P.innerHTML=h;
+}
+function renderAll(){renderList();renderPanel();if(S.view==="mx")renderMatrix();}
+function setView(v){
+  S.view=v;const mx=v==="mx";
+  $("v3d").setAttribute("aria-pressed",!mx);$("vmx").setAttribute("aria-pressed",mx);
+  $("matrix").hidden=!mx;cv.hidden=mx;$("hud").hidden=mx;$("legend").hidden=mx;$("hint").hidden=mx;tip.hidden=true;
+  if(mx)renderMatrix();
+  const h=mx?"#matrice":"#constellation";if(location.hash!==h){try{history.replaceState(null,"",h);}catch(e){}}
+}
+
+/* ---------- écouteurs ---------- */
+document.addEventListener("click",function(e){
+  const t=e.target.closest("button");if(!t)return;
+  if(t.dataset.actor!==undefined)select({kind:"actor",i:+t.dataset.actor});
+  else if(t.dataset.action!==undefined)select({kind:"action",i:+t.dataset.action});
+  else if(t.dataset.cat){S.cats.has(t.dataset.cat)?S.cats.delete(t.dataset.cat):S.cats.add(t.dataset.cat);renderFilters();renderAll();}
+  else if(t.dataset.terr){S.terrs.has(t.dataset.terr)?S.terrs.delete(t.dataset.terr):S.terrs.add(t.dataset.terr);renderFilters();renderAll();}
+  else if(t.dataset.back){S.mode="fiche";renderPanel();}
+  else if(t.dataset.del!==undefined&&S.sel){const a=ACTORS[S.sel.i];store.contacts[a.name].splice(+t.dataset.del,1);persist();renderPanel();}
+  else if(t.id==="copy"){
+    const txt=mailingEmails().join("; ");
+    const done=function(ok){t.textContent=ok?"Adresses copiées":"Copie refusée : sélectionnez le texte ci-dessus";};
+    try{navigator.clipboard.writeText(txt).then(function(){done(true);},function(){done(false);});}catch(err){done(false);}
+  }
+});
+document.addEventListener("submit",function(e){
+  if(e.target.id!=="cform")return;e.preventDefault();
+  const a=ACTORS[S.sel.i],n=$("c-n").value.trim();if(!n)return;
+  (store.contacts[a.name]=store.contacts[a.name]||[]).push({n:n,f:$("c-f").value.trim(),e:$("c-e").value.trim(),t:$("c-t").value.trim()});
+  persist();renderPanel();
+});
+document.addEventListener("change",function(e){
+  if(e.target.id!=="inmail"||!S.sel)return;
+  const name=ACTORS[S.sel.i].name,k=store.mailing.indexOf(name);
+  if(e.target.checked&&k<0)store.mailing.push(name);else if(!e.target.checked&&k>=0)store.mailing.splice(k,1);
+  persist();$("mailn").textContent=store.mailing.length;
+});
+$("q").addEventListener("input",function(){S.q=this.value.trim();renderAll();});
+$("v3d").onclick=function(){setView("3d");if(mobile())closeDrawer();};
+$("vmx").onclick=function(){setView("mx");if(mobile())closeDrawer();};
+$("mailbtn").onclick=function(){S.mode="mailing";renderPanel();if(mobile())openSheet();};
+window.addEventListener("hashchange",function(){setView(location.hash==="#matrice"?"mx":"3d");});
+
+/* ---------- commandes mobiles ---------- */
+$("menubtn").addEventListener("click",openDrawer);
+$("openpanel").addEventListener("click",openSheet);
+$("backdrop").addEventListener("click",closeAll);
+/* fermer le tiroir après un tap sur une ligne de l'annuaire */
+$("list").addEventListener("click",function(){if(mobile())setTimeout(closeDrawer,10);});
+/* swipe de la fiche vers le bas pour fermer */
+(function(){
+  const p=$("panel");let s=null;
+  p.addEventListener("touchstart",function(e){
+    if(e.target.closest("input,textarea,button,a"))return;
+    if(p.scrollTop>0)return;
+    s={y:e.touches[0].clientY,moved:0};
+  },{passive:true});
+  p.addEventListener("touchmove",function(e){
+    if(!s)return;
+    const dy=e.touches[0].clientY-s.y;s.moved=dy;
+    if(dy>0)p.style.transform="translateY("+dy+"px)";
+  },{passive:true});
+  p.addEventListener("touchend",function(){
+    if(!s)return;const dy=s.moved;s=null;p.style.transform="";
+    if(dy>100)closeSheet();
+  });
+})();
+
+renderFilters();
+setView(location.hash==="#matrice"?"mx":(location.hash==="#constellation"?"3d":S.view));
+renderAll();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){});
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
